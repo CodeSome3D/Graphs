@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World State of AI (2026 Edition) // Interactive Scientific Infographic</title>
+  <meta name="description" content="State of the art 2026 interactive scientific infographic presentation on global AI compute, frontier reasoning architectures, enterprise autonomy, and infrastructure economics.">
+  
+  <!-- Modern Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@500;700;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Core Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-palette="cyber">
+
+  <!-- Futuristic Scanline / Grid Overlay -->
+  <div class="hud-grid-overlay"></div>
+
+  <!-- Master Application Container -->
+  <div class="app-container">
+
+    <!-- Top HUD Header -->
+    <header class="hud-header">
+      <div class="hud-brand">
+        <div class="hud-badge">LIVE // 2026-Q3</div>
+        <div class="hud-title-group">
+          <h1>WORLD STATE OF AI</h1>
+          <p>Frontier Compute, Agentic Autonomy & Infrastructure Economics</p>
+        </div>
+      </div>
+
+      <div class="hud-controls-top">
+        <!-- Live Presenter Countdown -->
+        <div id="presenter-timer-box" class="hud-pill" style="display: none;">
+          <div class="pulse-dot"></div>
+          <span style="font-size: 11px; color: var(--text-muted);">AUTO:</span>
+          <strong id="presenter-timer-val" style="color: var(--primary); font-family: var(--font-mono);">14s</strong>
+        </div>
+
+        <!-- Presenter Auto-play Button -->
+        <button id="btn-toggle-presenter" class="btn-hud" title="Toggle Automated Presentation Mode (P)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          PRESENT
+        </button>
+
+        <!-- Colorblind / Theme Palette Selector -->
+        <div class="hud-pill" style="padding: 3px 6px;">
+          <button class="camera-btn palette-option-btn active" data-palette="cyber" title="Cyber Neon 2026">CYBER</button>
+          <button class="camera-btn palette-option-btn" data-palette="ibm" title="IBM Accessible Colorblind-Safe">IBM SAFE</button>
+          <button class="camera-btn palette-option-btn" data-palette="wong" title="Wong Scientific Palette">WONG</button>
+        </div>
+
+        <!-- Keyboard Shortcuts Help -->
+        <button id="btn-shortcuts-toggle" class="btn-hud" title="Keyboard Shortcuts (?)">?</button>
+
+        <!-- Fullscreen Button -->
+        <button id="btn-fullscreen-toggle" class="btn-hud" title="Toggle Fullscreen (F)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Presentation Workspace (Split-Screen 60% Slides / 40% 3D Globe) -->
+    <main class="presentation-workspace-split">
+
+      <!-- LEFT COLUMN: Presentation Slides (60% Width) -->
+      <div class="presentation-column">
+
+        <!-- SLIDE 1: Macro Pulse & Global Economics -->
+        <section class="slide-container glassmorphism-card active-slide" data-slide-index="0">
+          <div class="slide-header-box">
+            <div class="slide-tag">SECTION 01 // MACRO PULSE</div>
+            <h2 class="slide-title">Global AI State & Macro Economics</h2>
+            <div class="slide-subtitle">The transition from conversational LLMs to autonomous cognitive infrastructure</div>
+            <p class="slide-narrative">In 2026, artificial intelligence shifted from prompt-driven tools to autonomous background agent fleets. Frontier training runs surpass 10²⁷ FLOPs, with cumulative infrastructure CapEx reaching $1.42 Trillion.</p>
+          </div>
+
+          <!-- Slide 1 Grid with High-Tech Image Banner -->
+          <div class="slide-split-layout">
+            <!-- Hero Statistic Callout with Embedded Image -->
+            <div class="stat-hero-box anim-stagger">
+              <div class="hero-image-wrapper">
+                <img src="assets/images/slide1_datacenter.jpg" alt="2026 Hyperscale Datacenter Supercluster" class="slide-hero-img">
+                <div class="img-overlay-badge">NVIDIA GB200 & CUSTOM ASIC FABRIC</div>
+              </div>
+
+              <div class="hero-number-wrapper" style="margin-top: 8px;">
+                <span data-counter="1.42" data-decimals="2" data-prefix="$">0</span>
+                <span class="hero-unit">T</span>
+              </div>
+              <div class="hero-label">Cumulative AI CapEx & Datacenter Spend</div>
+              <div class="hero-growth-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                +48% YoY Acceleration
+              </div>
+            </div>
+
+            <!-- 2x2 Statistical Grid -->
+            <div class="stats-2x2-grid">
+              <div class="glassmorphism-subcard stat-metric-card anim-stagger">
+                <div class="stat-card-number">10²⁷ <span style="font-size: 15px; font-weight: 500;">FLOPs</span></div>
+                <div class="stat-card-label">Frontier Training Scale</div>
+                <div class="stat-card-desc">Current compute ceiling for next-gen reasoning models (100× expansion vs 2023).</div>
+              </div>
+
+              <div class="glassmorphism-subcard stat-metric-card anim-stagger">
+                <div class="stat-card-number secondary" data-counter="3.2" data-decimals="1" data-suffix="B">0</div>
+                <div class="stat-card-label">Daily Autonomous Agent Calls</div>
+                <div class="stat-card-desc">Multi-step agent executions across code synthesis, deep research, and enterprise tooling.</div>
+              </div>
+
+              <div class="glassmorphism-subcard stat-metric-card anim-stagger">
+                <div class="stat-card-number success" data-counter="84.6" data-decimals="1" data-suffix="%">0</div>
+                <div class="stat-card-label">Enterprise Code Assisted</div>
+                <div class="stat-card-desc">Production Pull Requests authored or co-piloted by agentic developer environments.</div>
+              </div>
+
+              <div class="glassmorphism-subcard stat-metric-card anim-stagger">
+                <div class="stat-card-number warning" data-counter="94.2" data-decimals="1" data-prefix="-" data-suffix="%">0</div>
+                <div class="stat-card-label">Inference Cost Deflation</div>
+                <div class="stat-card-desc">Token price drop since 2024 via distilled speculative decoding and FP4 silicon efficiency.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SLIDE 2: Compute Geography & The Energy Frontier -->
+        <section class="slide-container glassmorphism-card" data-slide-index="1">
+          <div class="slide-header-box">
+            <div class="slide-tag">SECTION 02 // COMPUTE GEOGRAPHY</div>
+            <h2 class="slide-title">Global Datacenters & The Energy Frontier</h2>
+            <div class="slide-subtitle">Gigawatt-scale AI campuses and the race for dedicated clean power</div>
+            <p class="slide-narrative">Frontier model serving is bounded by grid capacity. Global AI datacenter power demand consumes 380+ TWh annually, driving direct co-location with nuclear plants, geothermal fields, and ultra-high-voltage DC lines.</p>
+          </div>
+
+          <div class="slide-sidebar-layout">
+            <!-- Regional Capacity List with Animated Bars -->
+            <div class="glassmorphism-subcard anim-stagger" style="display: flex; flex-direction: column; justify-content: space-between;">
+              <div style="font-family: var(--font-display); font-size: 14px; font-weight: 700; color: #FFFFFF; margin-bottom: 6px;">Regional Compute Share (GW Capacity)</div>
+              <div id="slide2-capacity-bars"></div>
+              <div style="font-size: 11px; color: var(--primary); margin-top: 6px; font-weight: 600;">✨ Click any glowing beacon pin on the right 3D globe to inspect specs.</div>
+            </div>
+
+            <!-- Clean Energy Mix Breakdown with SMR Nuclear Campus Image -->
+            <div class="glassmorphism-subcard anim-stagger" style="display: flex; flex-direction: column; justify-content: space-between;">
+              <div class="hero-image-wrapper" style="height: 120px; margin-bottom: 8px;">
+                <img src="assets/images/slide2_nuclear.jpg" alt="Dedicated SMR Nuclear AI Campus" class="slide-hero-img">
+                <div class="img-overlay-badge">14× SMR NUCLEAR GIGAWATT CAMPUSES</div>
+              </div>
+              <div style="font-family: var(--font-display); font-size: 13.5px; font-weight: 700; color: #FFFFFF; margin-bottom: 4px;">2026 AI Campus Power Source Mix</div>
+              <div id="slide2-energy-grid"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SLIDE 3: Architecture & Test-Time Compute -->
+        <section class="slide-container glassmorphism-card" data-slide-index="2">
+          <div class="slide-header-box">
+            <div class="slide-tag">SECTION 03 // ARCHITECTURE & REASONING</div>
+            <h2 class="slide-title">The 2026 Frontier Paradigm: Test-Time Compute</h2>
+            <div class="slide-subtitle">From passive next-token prediction to dynamic Monte-Carlo reasoning & self-verification</div>
+            <p class="slide-narrative">Capability scaling transitioned from raw pre-training parameters to inference-time search—allocating compute dynamically via Process Reward Models (PRMs) to deliberate, verify, and self-correct.</p>
+          </div>
+
+          <div class="slide-split-layout">
+            <!-- 4-Step Paradigm Architecture Cards -->
+            <div class="paradigm-flow-list anim-stagger">
+              <div class="glassmorphism-subcard paradigm-card">
+                <div class="paradigm-step-badge">01</div>
+                <div class="paradigm-content">
+                  <div class="paradigm-header-row">
+                    <div class="paradigm-name">Test-Time Compute Scaling</div>
+                    <span class="paradigm-tag">Breakthrough</span>
+                  </div>
+                  <div class="paradigm-desc">Dynamic Monte-Carlo tree search allocating compute budgets adaptively from 100ms to 5 minutes based on task hardness.</div>
+                </div>
+              </div>
+
+              <div class="glassmorphism-subcard paradigm-card">
+                <div class="paradigm-step-badge">02</div>
+                <div class="paradigm-content">
+                  <div class="paradigm-header-row">
+                    <div class="paradigm-name">Sparse Mixture-of-Agents (MoA)</div>
+                    <span class="paradigm-tag">Efficiency</span>
+                  </div>
+                  <div class="paradigm-desc">Dynamic routing across 16 specialized sub-networks (38B active params) achieving >1T dense cognitive parity.</div>
+                </div>
+              </div>
+
+              <div class="glassmorphism-subcard paradigm-card">
+                <div class="paradigm-step-badge">03</div>
+                <div class="paradigm-content">
+                  <div class="paradigm-header-row">
+                    <div class="paradigm-name">Autonomous Synthetic Self-Play</div>
+                    <span class="paradigm-tag">Data Ceiling</span>
+                  </div>
+                  <div class="paradigm-desc">Hermetic execution sandboxes generating verifiable mathematical proofs and code tests for continuous self-improvement.</div>
+                </div>
+              </div>
+
+              <div class="glassmorphism-subcard paradigm-card">
+                <div class="paradigm-step-badge">04</div>
+                <div class="paradigm-content">
+                  <div class="paradigm-header-row">
+                    <div class="paradigm-name">Embodied Multimodal World Models</div>
+                    <span class="paradigm-tag">Physical AI</span>
+                  </div>
+                  <div class="paradigm-desc">Joint spatial 3D tokenization and physical dynamics enabling zero-shot robotic manipulation and spatial intelligence.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- MCTS Neural Reasoning Visual Card -->
+            <div class="glassmorphism-subcard anim-stagger" style="display: flex; flex-direction: column; justify-content: space-between;">
+              <div class="hero-image-wrapper" style="height: 135px; margin-bottom: 8px;">
+                <img src="assets/images/slide3_reasoning.jpg" alt="MCTS Reasoning & PRM Verification" class="slide-hero-img">
+                <div class="img-overlay-badge">MONTE-CARLO TREE SEARCH & PRM VERIFICATION</div>
+              </div>
+
+              <div class="efficiency-summary-card glassmorphism-subcard">
+                <div class="eff-title">Compute Efficiency Multipliers</div>
+                <div class="eff-item">
+                  <span style="color: var(--text-muted);">FLOPs per Intelligence Unit:</span>
+                  <strong style="color: var(--primary);">4.2× reduction vs 2024 baseline</strong>
+                </div>
+                <div class="eff-item">
+                  <span style="color: var(--text-muted);">Context Window Standard:</span>
+                  <strong style="color: var(--success);">2M – 10M tokens zero-loss recall</strong>
+                </div>
+                <div class="eff-item">
+                  <span style="color: var(--text-muted);">Active Parameter Gating:</span>
+                  <strong style="color: var(--warning);">38B Active / 680B Total Parameters</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SLIDE 4: Benchmark Matrix & Open vs Closed Pareto (4 Full Scientific Visuals) -->
+        <section class="slide-container glassmorphism-card" data-slide-index="3">
+          <div class="slide-header-box">
+            <div class="slide-tag">SECTION 04 // BENCHMARK MATRIX & PARETO FRONTIER</div>
+            <h2 class="slide-title">Frontier Intelligence & Open vs Closed Pareto</h2>
+            <div class="slide-subtitle">Multidimensional benchmark evaluations, cost frontiers, and collapsing open-weights gap</div>
+          </div>
+
+          <!-- 2x2 Dense Scientific Chart Matrix (Fills entire card area with zero waste) -->
+          <div class="charts-2x2-grid">
+            <!-- Panel 1: Radar Capabilities -->
+            <div class="glassmorphism-subcard chart-panel-card anim-stagger">
+              <div class="chart-panel-title">
+                <span>Capability Radar (%)</span>
+                <div class="chart-legend">
+                  <div class="legend-item"><div class="legend-color" style="background: var(--primary);"></div> Closed</div>
+                  <div class="legend-item"><div class="legend-color" style="background: var(--secondary);"></div> Open</div>
+                  <div class="legend-item"><div class="legend-color" style="background: rgba(255,255,255,0.4);"></div> PhD</div>
+                </div>
+              </div>
+              <div id="slide4-radar-container" class="chart-svg-wrapper"></div>
+            </div>
+
+            <!-- Panel 2: Pareto Scatter Plot -->
+            <div class="glassmorphism-subcard chart-panel-card anim-stagger">
+              <div class="chart-panel-title">
+                <span>Pareto Frontier (IQ vs Cost)</span>
+                <span style="font-size: 9px; color: var(--text-muted); font-family: var(--font-mono);">$ / 1M Tokens</span>
+              </div>
+              <div id="slide4-pareto-container" class="chart-svg-wrapper"></div>
+            </div>
+
+            <!-- Panel 3: Open vs Closed Capability Lag Timeline -->
+            <div class="glassmorphism-subcard chart-panel-card anim-stagger">
+              <div class="chart-panel-title">
+                <span>Open vs Closed Lag (Months)</span>
+                <span style="font-size: 9px; color: var(--success); font-family: var(--font-mono);">2.4 Mo Delta</span>
+              </div>
+              <div id="slide4-delta-container" class="chart-svg-wrapper"></div>
+            </div>
+
+            <!-- Panel 4: Test-Time Compute Scaling Curve -->
+            <div class="glassmorphism-subcard chart-panel-card anim-stagger">
+              <div class="chart-panel-title">
+                <span>Inference Scaling (Tokens)</span>
+                <span style="font-size: 9px; color: var(--warning); font-family: var(--font-mono);">97.1% Peak</span>
+              </div>
+              <div id="slide4-scaling-container" class="chart-svg-wrapper"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SLIDE 5: Industry Transformation & Economic Velocity (With Rich Background Imagery) -->
+        <section class="slide-container glassmorphism-card" data-slide-index="4">
+          <div class="slide-header-box">
+            <div class="slide-tag">SECTION 05 // ECONOMIC VELOCITY</div>
+            <h2 class="slide-title">Industry Transformation & Agent Autonomy</h2>
+            <div class="slide-subtitle">Real-world productivity gains across key vertical sectors in 2026</div>
+            <p class="slide-narrative">Enterprise deployments transitioned from conversational chatbots to autonomous agent swarms with direct P&L impact. R&D cycles in biotechnology, chip engineering, and materials discovery shrank from years to weeks.</p>
+          </div>
+
+          <div class="slide-full-grid">
+            <!-- Sector 1: Biotech with Custom Background Image -->
+            <div class="glassmorphism-subcard sector-card sector-card-biotech anim-stagger">
+              <div class="sector-card-content">
+                <div class="sector-header">
+                  <div class="sector-title">🧬 Biomedical & De Novo Proteins</div>
+                  <div class="sector-gain-badge">+340% Clinical Speed</div>
+                </div>
+                <div class="sector-stat-row">
+                  <div class="sector-stat-val" style="color: var(--primary);">14 Days</div>
+                  <div class="sector-stat-label">Target to Validated Candidate</div>
+                </div>
+                <p class="sector-desc">AlphaFold 3 and co-folding diffusion architectures designed 48 active Phase-1 drug candidates currently in clinical trials.</p>
+              </div>
+            </div>
+
+            <!-- Sector 2: Software with Custom Background Image -->
+            <div class="glassmorphism-subcard sector-card sector-card-software anim-stagger">
+              <div class="sector-card-content">
+                <div class="sector-header">
+                  <div class="sector-title">💻 Autonomous Software Swarms</div>
+                  <div class="sector-gain-badge">6.2× Developer Output</div>
+                </div>
+                <div class="sector-stat-row">
+                  <div class="sector-stat-val" style="color: var(--secondary);">72% Auto-Fix</div>
+                  <div class="sector-stat-label">End-to-End Bug Resolutions</div>
+                </div>
+                <p class="sector-desc">Multi-agent developer swarms ingest codebases, write unit tests, verify regression suites, and auto-deploy canary fixes.</p>
+              </div>
+            </div>
+
+            <!-- Sector 3: Silicon Design with Custom Background Image -->
+            <div class="glassmorphism-subcard sector-card sector-card-silicon anim-stagger">
+              <div class="sector-card-content">
+                <div class="sector-header">
+                  <div class="sector-title">⚡ 2nm Silicon Tape-Out Floorplan</div>
+                  <div class="sector-gain-badge">45% Tape-Out Speedup</div>
+                </div>
+                <div class="sector-stat-row">
+                  <div class="sector-stat-val" style="color: var(--warning);">18.4%</div>
+                  <div class="sector-stat-label">PPA Floorplan Efficiency Gain</div>
+                </div>
+                <p class="sector-desc">Reinforcement learning agents route 2nm chip interconnects and optimize macro placement beyond human layout team baselines.</p>
+              </div>
+            </div>
+
+            <!-- Sector 4: Materials with Custom Background Image -->
+            <div class="glassmorphism-subcard sector-card sector-card-battery anim-stagger">
+              <div class="sector-card-content">
+                <div class="sector-header">
+                  <div class="sector-title">🔋 Solid-State Battery Crystals</div>
+                  <div class="sector-gain-badge">12,000+ Crystals</div>
+                </div>
+                <div class="sector-stat-row">
+                  <div class="sector-stat-val" style="color: var(--success);">3.5× Density</div>
+                  <div class="sector-stat-label">Solid-State Electrolyte Gain</div>
+                </div>
+                <p class="sector-desc">Autonomous closed-loop robotic synthesis labs identified stable non-lithium solid electrolytes for next-gen energy storage.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SLIDE 6: Governance Treaties & 2026-2030 Horizon -->
+        <section class="slide-container glassmorphism-card" data-slide-index="5">
+          <div class="slide-header-box">
+            <div class="slide-tag">SECTION 06 // ROADMAP & GOVERNANCE</div>
+            <h2 class="slide-title">Governance Treaties & The 2026–2030 Horizon</h2>
+            <div class="slide-subtitle">Compute verification, safety thresholds, and the trajectory toward general cognitive parity</div>
+            <p class="slide-narrative">Global accords formalized hardware-level compute telemetry for training runs exceeding 10²⁶ FLOPs, as the scientific frontier advances toward unified multimodal embodiment and self-improving scientific agents.</p>
+          </div>
+
+          <div class="slide-split-layout">
+            <!-- 2024-2030 Timeline -->
+            <div class="timeline-track-wrapper anim-stagger">
+              <div class="glassmorphism-subcard timeline-node">
+                <span class="timeline-year">2024</span>
+                <div class="timeline-title">Multimodal Foundation & 1M Context</div>
+                <div class="timeline-desc">Omni-modal text/vision/voice unification, initial test-time search prototypes.</div>
+              </div>
+
+              <div class="glassmorphism-subcard timeline-node">
+                <span class="timeline-year">2025</span>
+                <div class="timeline-title">Reasoning Models & Open Distillation</div>
+                <div class="timeline-desc">o1/DeepSeek-R1 release, open-weights parity, $100B hyperscale datacenter plans.</div>
+              </div>
+
+              <div class="glassmorphism-subcard timeline-node highlight">
+                <span class="timeline-year">2026 (PRESENT)</span>
+                <div class="timeline-title">Agentic Fleets & Gigawatt Nuclear Campuses</div>
+                <div class="timeline-desc">85% assisted coding, self-verifying PRMs, 10²⁶ FLOPs international safety treaty.</div>
+              </div>
+
+              <div class="glassmorphism-subcard timeline-node">
+                <span class="timeline-year">2027–2028</span>
+                <div class="timeline-title">Embodied Robotics & Automated Chemistry</div>
+                <div class="timeline-desc">Humanoid factory deployment, closed-loop autonomous scientific wet labs.</div>
+              </div>
+
+              <div class="glassmorphism-subcard timeline-node">
+                <span class="timeline-year">2029–2030</span>
+                <div class="timeline-title">General Scientific Cognitive Parity</div>
+                <div class="timeline-desc">Independent mathematical theorem proving and theoretical physics discoveries.</div>
+              </div>
+            </div>
+
+            <!-- 4 Governance Pillars -->
+            <div class="governance-grid anim-stagger">
+              <div class="glassmorphism-subcard gov-card">
+                <div class="gov-title">📡 Compute Telemetry</div>
+                <div class="gov-detail">Hardware-level audit verification on all multi-cluster runs exceeding 10²⁶ FLOPs.</div>
+              </div>
+
+              <div class="glassmorphism-subcard gov-card">
+                <div class="gov-title">🧬 Biosecurity Sandboxing</div>
+                <div class="gov-detail">Cryptographic DNA synthesis screening and dual-use biological hazard prevention.</div>
+              </div>
+
+              <div class="glassmorphism-subcard gov-card">
+                <div class="gov-title">🔒 Media Provenance (C2PA)</div>
+                <div class="gov-detail">Universal cryptographic watermarking standard on 98% of frontier synthetic media.</div>
+              </div>
+
+              <div class="glassmorphism-subcard gov-card">
+                <div class="gov-title">⚡ Zero-Fossil Mandate</div>
+                <div class="gov-detail">Binding hyperscale agreements requiring 100% dedicated clean power additions by 2028.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide Navigation Toolbar (Attached to Left Column) -->
+        <div class="slide-navigation-toolbar">
+          <div class="slide-nav-controls">
+            <button id="btn-prev-slide" class="btn-nav-arrow" title="Previous Slide (Left Arrow)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+
+            <div class="slide-dots">
+              <div class="slide-dot active" data-dot-index="0" title="Slide 1: Macro Pulse"></div>
+              <div class="slide-dot" data-dot-index="1" title="Slide 2: Compute Geography"></div>
+              <div class="slide-dot" data-dot-index="2" title="Slide 3: Architecture & Reasoning"></div>
+              <div class="slide-dot" data-dot-index="3" title="Slide 4: Benchmark Matrix"></div>
+              <div class="slide-dot" data-dot-index="4" title="Slide 5: Industry Transformation"></div>
+              <div class="slide-dot" data-dot-index="5" title="Slide 6: Governance & Roadmap"></div>
+            </div>
+
+            <button id="btn-next-slide" class="btn-nav-arrow" title="Next Slide (Right Arrow / Space)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </div>
+
+          <div class="hud-pill" style="font-family: var(--font-mono); font-size: 11.5px; color: var(--primary);">
+            <span id="hud-slide-counter">01 / 06</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN: Dedicated 3D Holographic Stage (40% Width) -->
+      <div class="viewport-3d-column glassmorphism-card">
+        
+        <!-- Top 3D Viewport Controls & Telemetry -->
+        <div class="viewport-3d-header">
+          <div class="mode-switch-pills">
+            <button id="btn-mode-globe" class="camera-btn active" data-cam="global">🌐 EARTH</button>
+            <button id="btn-mode-neural" class="camera-btn" data-cam="neural">🧠 NEURAL MoE</button>
+          </div>
+
+          <!-- Quick 3D Camera Tools -->
+          <div class="stage-tools-group">
+            <button id="btn-zoom-in" class="stage-tool-btn" title="Zoom In (+)">+</button>
+            <button id="btn-zoom-out" class="stage-tool-btn" title="Zoom Out (-)">-</button>
+            <button id="btn-toggle-rotate" class="stage-tool-btn active" title="Toggle Auto-Rotate">🔄</button>
+            <button id="btn-reset-cam" class="stage-tool-btn" title="Reset Camera">⟲</button>
+          </div>
+        </div>
+
+        <!-- Dedicated Three.js WebGL Stage Container -->
+        <div id="webgl-canvas-container" class="stage-canvas-wrapper"></div>
+
+        <!-- 3D Interactive Telemetry Overlay -->
+        <div class="stage-telemetry-badge">
+          <div class="telemetry-row">
+            <span class="telemetry-key">ACTIVE TARGET:</span>
+            <strong id="telemetry-hub-name" class="telemetry-val">GLOBAL INFRASTRUCTURE</strong>
+          </div>
+          <div class="telemetry-row">
+            <span class="telemetry-key">REGIONAL LOAD:</span>
+            <span id="telemetry-hub-gw" class="telemetry-val-accent">22.8 GW Global Total</span>
+          </div>
+        </div>
+
+        <!-- Quick Hub Fly-To Chips -->
+        <div class="hub-chips-bar">
+          <span style="font-size: 10px; color: var(--text-muted); font-weight: 700; letter-spacing: 1px;">FLY-TO:</span>
+          <button class="hub-chip-btn" data-hub="us-east">🇺🇸 Virginia</button>
+          <button class="hub-chip-btn" data-hub="us-west">🇺🇸 Silicon Valley</button>
+          <button class="hub-chip-btn" data-hub="eu-west">🇬🇧 London</button>
+          <button class="hub-chip-btn" data-hub="asia-east">🇨🇳 Beijing</button>
+          <button class="hub-chip-btn" data-hub="asia-japan">🇯🇵 Tokyo</button>
+          <button class="hub-chip-btn" data-hub="asia-south">🇮🇳 Bengaluru</button>
+          <button class="hub-chip-btn" data-hub="me-uae">🇦🇪 Abu Dhabi</button>
+          <button class="hub-chip-btn" data-hub="asia-taiwan">🇹🇼 Taipei</button>
+        </div>
+
+        <!-- Bottom Regional View Presets -->
+        <div class="camera-presets-bar" style="margin-top: 8px; justify-content: center;">
+          <button class="camera-btn" data-cam="us">AMERICAS</button>
+          <button class="camera-btn" data-cam="europe">EUROPE</button>
+          <button class="camera-btn" data-cam="asia">ASIA</button>
+          <button class="camera-btn active" data-cam="global">RESET ORBIT</button>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Interactive Detail Modal / Drawer -->
+  <aside id="detail-drawer" class="detail-drawer">
+    <div class="drawer-header">
+      <div id="drawer-title" class="drawer-title">Hub Details</div>
+      <button id="drawer-close-btn" class="drawer-close">&times;</button>
+    </div>
+    <div id="drawer-content"></div>
+  </aside>
+
+  <!-- Keyboard Shortcuts Cheatsheet Modal -->
+  <div id="shortcuts-modal" class="shortcuts-modal">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+      <h3 style="font-family: var(--font-display); font-size: 16px; color: #FFFFFF;">Keyboard Shortcuts</h3>
+      <button id="shortcuts-close-btn" class="drawer-close">&times;</button>
+    </div>
+    <table class="shortcuts-table">
+      <tr><td><span class="kbd-key">&rarr;</span> / <span class="kbd-key">Space</span></td><td>Next Slide</td></tr>
+      <tr><td><span class="kbd-key">&larr;</span></td><td>Previous Slide</td></tr>
+      <tr><td><span class="kbd-key">1</span> - <span class="kbd-key">6</span></td><td>Jump Directly to Slide (1 to 6)</td></tr>
+      <tr><td><span class="kbd-key">P</span></td><td>Toggle Presenter Mode (Auto-Play)</td></tr>
+      <tr><td><span class="kbd-key">F</span></td><td>Toggle Fullscreen Mode</td></tr>
+      <tr><td><span class="kbd-key">?</span></td><td>Toggle Shortcuts Cheatsheet</td></tr>
+      <tr><td><span class="kbd-key">Drag / Wheel</span></td><td>Orbit 3D Globe / Zoom In-Out</td></tr>
+    </table>
+  </div>
+
+  <!-- Application Entry Point (ES Module) -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

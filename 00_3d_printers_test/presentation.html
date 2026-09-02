@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Filament 3D Printer Statistics & Market Dynamics 2024–2034</title>
+    <!-- Google Fonts: Plus Jakarta Sans for titles, Inter for body, Space Grotesk & JetBrains Mono for editorial badges -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+                        grotesk: ['Space Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        dark: {
+                            950: '#050811',
+                            900: '#090e1a',
+                            850: '#0e1526',
+                            800: '#131d33',
+                            750: '#1a2744',
+                            700: '#233458',
+                            border: 'rgba(255, 255, 255, 0.08)',
+                            borderBright: 'rgba(56, 189, 248, 0.3)',
+                        },
+                        accent: {
+                            cyan: '#00f2fe',
+                            sky: '#38bdf8',
+                            purple: '#8b5cf6',
+                            violet: '#a855f7',
+                            emerald: '#10b981',
+                            mint: '#34d399',
+                            amber: '#f59e0b',
+                            coral: '#f97316',
+                            rose: '#f43f5e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --bg-dark: #050811;
+            --card-surface: rgba(14, 21, 38, 0.72);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-border-glow: rgba(0, 242, 254, 0.3);
+            --neon-cyan: #00f2fe;
+            --neon-purple: #8b5cf6;
+            --neon-emerald: #10b981;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #f1f5f9;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            user-select: none;
+            background-image: 
+                radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.035) 1px, transparent 0);
+            background-size: 32px 32px;
+        }
+
+        /* Behance Modern Bento Card */
+        .bento-card {
+            background: var(--card-surface);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 1.25rem;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6), 0 0 1px 1px rgba(255, 255, 255, 0.04) inset;
+            transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bento-card:hover {
+            border-color: rgba(0, 242, 254, 0.35);
+            box-shadow: 0 16px 40px -12px rgba(0, 242, 254, 0.12), 0 0 1px 1px rgba(0, 242, 254, 0.2) inset;
+            transform: translateY(-2px);
+        }
+
+        /* Slide Transition System */
+        .slide-deck {
+            position: relative;
+            width: 100vw;
+            height: calc(100vh - 4rem);
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.975) translateY(14px);
+            transition: opacity 0.38s ease, transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.38s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1.25rem 2.25rem;
+            max-width: 1720px;
+            margin: 0 auto;
+            pointer-events: none;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1) translateY(0);
+            pointer-events: auto;
+            z-index: 10;
+        }
+
+        /* Chart Canvas Constraints */
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 200px;
+            max-height: 360px;
+        }
+
+        /* Custom Scrollbar */
+        .custom-scroll::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(14, 21, 38, 0.6);
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: rgba(71, 85, 105, 0.6);
+            border-radius: 3px;
+        }
+
+        /* Glowing ambient backlight */
+        .ambient-glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(140px);
+            pointer-events: none;
+            opacity: 0.14;
+            z-index: 0;
+        }
+
+        /* Technical Tag Pill */
+        .tech-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.25rem 0.65rem;
+            border-radius: 9999px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: rgba(0, 242, 254, 0.08);
+            border: 1px solid rgba(0, 242, 254, 0.25);
+            color: #00f2fe;
+        }
+
+        .badge-pulse {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #00f2fe;
+            box-shadow: 0 0 8px #00f2fe;
+            animation: beacon 2s infinite ease-in-out;
+        }
+
+        @keyframes beacon {
+            0% { transform: scale(0.9); opacity: 1; }
+            50% { transform: scale(1.4); opacity: 0.4; }
+            100% { transform: scale(0.9); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-dark-950 text-slate-100 flex flex-col h-screen overflow-hidden selection:bg-accent-cyan selection:text-dark-950 font-sans">
+
+    <!-- Ambient Glowing Backdrops -->
+    <div class="ambient-glow bg-accent-cyan w-[500px] h-[500px] top-[-150px] left-[-150px]"></div>
+    <div class="ambient-glow bg-accent-purple w-[600px] h-[600px] bottom-[-200px] right-[-150px]"></div>
+    <div class="ambient-glow bg-accent-emerald w-[400px] h-[400px] top-[35%] right-[25%] opacity-[0.07]"></div>
+
+    <!-- TOP EDITORIAL HEADER BAR -->
+    <header class="h-14 border-b border-dark-border bg-dark-900/85 backdrop-blur-xl px-6 flex items-center justify-between z-30 shrink-0">
+        <!-- Logo & Title -->
+        <div class="flex items-center gap-3.5">
+            <div class="flex items-center justify-center w-8 h-8 rounded-xl bg-gradient-to-br from-accent-cyan to-accent-purple p-[1px]">
+                <div class="w-full h-full bg-dark-900 rounded-[11px] flex items-center justify-center font-grotesk font-bold text-accent-cyan text-sm">
+                    3D
+                </div>
+            </div>
+            <div class="flex items-baseline gap-2">
+                <span class="font-display font-extrabold text-sm tracking-tight text-white">FDM / FFF Global Analytics</span>
+                <span class="text-[10px] font-mono font-semibold text-slate-400 px-2 py-0.5 rounded bg-dark-800 border border-dark-border">2024–2034 PROJECTION</span>
+            </div>
+        </div>
+
+        <!-- Slide Category Indicator -->
+        <div class="hidden md:flex items-center gap-2.5 text-xs font-mono font-medium text-slate-300">
+            <span class="badge-pulse"></span>
+            <span id="topicText" class="text-slate-200 uppercase tracking-wider">01 // EXECUTIVE BRIEFING & KPIS</span>
+        </div>
+
+        <!-- Deck Controls & Tools -->
+        <div class="flex items-center gap-2">
+            <!-- Autoplay -->
+            <button id="btnAutoplay" onclick="toggleAutoplay()" title="Autoplay (A)" class="p-2 rounded-xl bg-dark-850 hover:bg-dark-800 text-slate-300 hover:text-accent-cyan border border-dark-border text-xs flex items-center gap-1.5 transition">
+                <span id="autoplayIcon">▶</span> <span class="hidden sm:inline text-[11px] font-mono">Autoplay</span>
+            </button>
+
+            <!-- Speaker Notes -->
+            <button id="btnNotes" onclick="toggleNotes()" title="Speaker Notes (N)" class="p-2 rounded-xl bg-dark-850 hover:bg-dark-800 text-slate-300 hover:text-accent-cyan border border-dark-border text-xs flex items-center gap-1.5 transition">
+                <span>📝</span> <span class="hidden sm:inline text-[11px] font-mono">Notes</span>
+            </button>
+
+            <!-- Slide Overview Grid -->
+            <button id="btnGrid" onclick="toggleGridOverview()" title="Slide Grid (G)" class="p-2 rounded-xl bg-dark-850 hover:bg-dark-800 text-slate-300 hover:text-accent-cyan border border-dark-border text-xs flex items-center gap-1.5 transition">
+                <span>⊞</span> <span class="hidden sm:inline text-[11px] font-mono">Grid</span>
+            </button>
+
+            <!-- Fullscreen -->
+            <button id="btnFullscreen" onclick="toggleFullscreen()" title="Fullscreen (F)" class="p-2 rounded-xl bg-dark-850 hover:bg-dark-800 text-slate-300 hover:text-accent-cyan border border-dark-border text-xs transition">
+                <span id="fullscreenIcon">⛶</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN SLIDE DECK (8 SLIDES) -->
+    <main class="slide-deck relative flex-1">
+
+        <!-- ==================== SLIDE 1: EXECUTIVE BRIEFING & KPIS ==================== -->
+        <section class="slide active" data-slide="1" data-topic="01 // EXECUTIVE BRIEFING & KPIS">
+            <!-- Header Section -->
+            <div class="flex flex-wrap items-end justify-between gap-4">
+                <div class="space-y-1">
+                    <div class="tech-pill">
+                        <span class="w-1.5 h-1.5 rounded-full bg-accent-cyan animate-pulse"></span>
+                        <span>Comprehensive Market Synthesis &bull; Q1 2026</span>
+                    </div>
+                    <h2 class="text-3xl lg:text-4xl font-extrabold font-display tracking-tight text-white leading-tight">
+                        Global Filament 3D Printer <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan via-accent-sky to-accent-purple">Usage & Market Dynamics</span>
+                    </h2>
+                </div>
+                <div class="text-right hidden sm:block font-mono text-xs text-slate-400">
+                    <div>ISO/ASTM 52900:2021</div>
+                    <div class="text-accent-cyan font-bold">21.8% Sustained CAGR</div>
+                </div>
+            </div>
+
+            <!-- Bento Grid: 4 Hero KPIs + Core-XY Hardware Visual Card -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 my-auto">
+                <!-- 4 Left KPI Cards (7 Cols) -->
+                <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- KPI 1 -->
+                    <div class="bento-card p-5 border-l-4 border-l-accent-cyan flex flex-col justify-between">
+                        <div class="flex items-center justify-between text-xs font-mono text-slate-400 uppercase tracking-wider">
+                            <span>Market Valuation</span>
+                            <span class="text-accent-cyan text-base">🌐</span>
+                        </div>
+                        <div class="my-2">
+                            <div class="text-4xl sm:text-5xl font-black font-display text-accent-cyan tracking-tighter">$15.09B</div>
+                            <div class="text-xs font-grotesk text-emerald-400 font-semibold mt-1">▲ 21.8% CAGR through 2034</div>
+                        </div>
+                        <p class="text-slate-400 text-[11px] border-t border-dark-border pt-2">
+                            Projected from $2.10B base in 2024, leading additive manufacturing in volume.
+                        </p>
+                    </div>
+
+                    <!-- KPI 2 -->
+                    <div class="bento-card p-5 border-l-4 border-l-accent-purple flex flex-col justify-between">
+                        <div class="flex items-center justify-between text-xs font-mono text-slate-400 uppercase tracking-wider">
+                            <span>Annual Desktop Units</span>
+                            <span class="text-accent-purple text-base">📦</span>
+                        </div>
+                        <div class="my-2">
+                            <div class="text-4xl sm:text-5xl font-black font-display text-accent-purple tracking-tighter">1.50M+</div>
+                            <div class="text-xs font-grotesk text-purple-300 font-semibold mt-1">● 52%+ of All AM Hardware</div>
+                        </div>
+                        <p class="text-slate-400 text-[11px] border-t border-dark-border pt-2">
+                            Automated multi-material Core-XY kinematics drive mass decentralized farms.
+                        </p>
+                    </div>
+
+                    <!-- KPI 3 -->
+                    <div class="bento-card p-5 border-l-4 border-l-accent-amber flex flex-col justify-between">
+                        <div class="flex items-center justify-between text-xs font-mono text-slate-400 uppercase tracking-wider">
+                            <span>Feedstock Tonnage</span>
+                            <span class="text-accent-amber text-base">⚙</span>
+                        </div>
+                        <div class="my-2">
+                            <div class="text-4xl sm:text-5xl font-black font-display text-accent-amber tracking-tighter">64,000+</div>
+                            <div class="text-xs font-grotesk text-amber-300 font-semibold mt-1">Metric Tonnes Consumed / Yr</div>
+                        </div>
+                        <p class="text-slate-400 text-[11px] border-t border-dark-border pt-2">
+                            Valued at $1.50B in 2023, expanding to $4.20B by 2030 (18.8% CAGR).
+                        </p>
+                    </div>
+
+                    <!-- KPI 4 -->
+                    <div class="bento-card p-5 border-l-4 border-l-accent-emerald flex flex-col justify-between">
+                        <div class="flex items-center justify-between text-xs font-mono text-slate-400 uppercase tracking-wider">
+                            <span>Entry-Level Surge</span>
+                            <span class="text-accent-emerald text-base">📈</span>
+                        </div>
+                        <div class="my-2">
+                            <div class="text-4xl sm:text-5xl font-black font-display text-accent-emerald tracking-tighter">+39%</div>
+                            <div class="text-xs font-grotesk text-emerald-300 font-semibold mt-1">YoY Unit Growth (Q1 2026)</div>
+                        </div>
+                        <p class="text-slate-400 text-[11px] border-t border-dark-border pt-2">
+                            Over 1M units shipped in 90 days, generating 54% of hardware revenue.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right Hero Hardware Image & OEM Brand Showcase (5 Cols) -->
+                <div class="lg:col-span-5 bento-card p-0 flex flex-col justify-between relative overflow-hidden group">
+                    <!-- Background Product Render -->
+                    <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('assets/printer_corexy.jpg');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark-950 via-dark-950/60 to-transparent"></div>
+
+                    <!-- Top Card Badge -->
+                    <div class="relative p-5 flex items-center justify-between z-10">
+                        <span class="tech-pill bg-dark-900/80 backdrop-blur-md">
+                            <span>⚡</span> Next-Gen Core-XY Architecture
+                        </span>
+                        <span class="text-[11px] font-mono text-slate-300 bg-dark-900/80 px-2.5 py-1 rounded-full border border-dark-border">
+                            500 mm/s Standard
+                        </span>
+                    </div>
+
+                    <!-- Bottom Content Overlay -->
+                    <div class="relative p-5 space-y-3 z-10">
+                        <h3 class="text-lg font-bold font-display text-white">Automated Multi-Material Ecosystem</h3>
+                        <p class="text-slate-300 text-xs leading-relaxed">
+                            Integrated LiDAR calibration, active resonance frequency shaping, and multi-color AMS modules have made professional 3D printing fast, reliable, and accessible.
+                        </p>
+
+                        <!-- OEM Brand Badges Grid -->
+                        <div class="pt-2 border-t border-white/10 flex flex-wrap items-center gap-2 text-[11px] font-mono text-slate-300">
+                            <span class="px-2.5 py-1 rounded-md bg-dark-900/80 border border-dark-border">Bambu Lab</span>
+                            <span class="px-2.5 py-1 rounded-md bg-dark-900/80 border border-dark-border">Creality</span>
+                            <span class="px-2.5 py-1 rounded-md bg-dark-900/80 border border-dark-border">Elegoo</span>
+                            <span class="px-2.5 py-1 rounded-md bg-dark-900/80 border border-dark-border">Anycubic</span>
+                            <span class="px-2.5 py-1 rounded-md bg-dark-900/80 border border-dark-border">Prusa</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Brand & Takeaway Strip -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                <div class="bento-card p-3 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-accent-cyan/10 border border-accent-cyan/30 flex items-center justify-center text-accent-cyan font-mono font-bold">01</div>
+                    <div class="text-slate-300"><strong>Hardware Disruption:</strong> High-speed Core-XY kinematics replace legacy $5k+ pro systems.</div>
+                </div>
+                <div class="bento-card p-3 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-accent-purple/10 border border-accent-purple/30 flex items-center justify-center text-accent-purple font-mono font-bold">02</div>
+                    <div class="text-slate-300"><strong>Material Transition:</strong> Engineering composites & PEEK expand at 21.37% CAGR.</div>
+                </div>
+                <div class="bento-card p-3 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-accent-emerald/10 border border-accent-emerald/30 flex items-center justify-center text-accent-emerald font-mono font-bold">03</div>
+                    <div class="text-slate-300"><strong>Industrial End-Use:</strong> Serial batch parts grow at 23.28% CAGR in automotive/aero.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SLIDE 2: MACROECONOMIC TRAJECTORY ==================== -->
+        <section class="slide" data-slide="2" data-topic="02 // MACROECONOMIC TRAJECTORY (2024–2034)">
+            <div class="flex flex-wrap items-end justify-between gap-4 border-b border-dark-border pb-2.5">
+                <div>
+                    <div class="tech-pill mb-1">Financial Trajectory &bull; Multi-Year Valuation</div>
+                    <h2 class="text-2xl lg:text-3xl font-extrabold font-display text-white">Macroeconomic Expansion & Revenue Shift</h2>
+                </div>
+                <!-- Interactive Chart Switcher -->
+                <div class="flex items-center gap-1.5 bg-dark-850 p-1 rounded-xl border border-dark-border text-xs font-mono">
+                    <button id="btnPrecedence" onclick="updateMacroChart('precedence')" class="px-3 py-1 rounded-lg bg-accent-cyan text-dark-950 font-bold transition">Precedence ($15.09B)</button>
+                    <button id="btnGrandView" onclick="updateMacroChart('grandview')" class="px-3 py-1 rounded-lg hover:bg-dark-750 text-slate-300 font-medium transition">Grand View ($13.50B)</button>
+                    <button id="btnBoth" onclick="updateMacroChart('both')" class="px-3 py-1 rounded-lg hover:bg-dark-750 text-slate-300 font-medium transition">Compare Both</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 my-auto items-center">
+                <!-- Left Visual: Line & Area Chart (7 Cols) -->
+                <div class="lg:col-span-7 bento-card p-5 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-sm font-bold font-display text-white">Global FDM Market Size Projections (2024–2034)</h3>
+                            <p class="text-xs text-slate-400">Valuation trajectory in USD Billions ($B) across major econometric models.</p>
+                        </div>
+                        <span class="text-xs font-mono font-bold text-accent-cyan px-2.5 py-1 rounded-md bg-accent-cyan/10 border border-accent-cyan/20">21.8% CAGR</span>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="slide2MarketChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Right Visual: Segment Stratification Stacked Bar & Takeaways (5 Cols) -->
+                <div class="lg:col-span-5 space-y-4">
+                    <div class="bento-card p-5 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-sm font-bold font-display text-white">Revenue Stratification by Segment</h3>
+                            <span class="text-xs font-mono text-accent-purple">2025 vs 2031</span>
+                        </div>
+                        <div class="h-44">
+                            <canvas id="slide2SegmentChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Macro Insights Box -->
+                    <div class="bento-card p-4 border-l-4 border-l-accent-cyan space-y-1.5 text-xs">
+                        <div class="font-bold text-accent-cyan uppercase tracking-wider flex items-center justify-between font-mono">
+                            <span>Services & Materials Acceleration</span>
+                            <span class="bg-accent-cyan/10 px-2 py-0.5 rounded text-accent-cyan font-bold">+22.38% CAGR</span>
+                        </div>
+                        <p class="text-slate-300 leading-relaxed">
+                            While hardware capital expenditure represented <strong>81.05%</strong> of market revenue in 2025, attached service bureaus and certified materials are surging as tier-1 suppliers outsource qualified serial runs.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Milestone Footer -->
+            <div class="grid grid-cols-3 gap-3 text-center text-xs font-mono">
+                <div class="p-2.5 rounded-xl bg-dark-900 border border-dark-border">
+                    <span class="text-slate-500 block text-[10px]">2019 Base Milestone</span>
+                    <span class="font-bold text-white text-sm">$10.0B Total Additive Sector</span>
+                </div>
+                <div class="p-2.5 rounded-xl bg-dark-900 border border-dark-border">
+                    <span class="text-slate-500 block text-[10px]">2025 Sector Valuation</span>
+                    <span class="font-bold text-accent-cyan text-sm">$23.41B Global Market</span>
+                </div>
+                <div class="p-2.5 rounded-xl bg-dark-900 border border-dark-border">
+                    <span class="text-slate-500 block text-[10px]">2034 Macro Forecast</span>
+                    <span class="font-bold text-accent-purple text-sm">$135.0B+ Worldwide</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SLIDE 3: HARDWARE BIFURCATION & SQUEEZED MIDDLE ==================== -->
+        <section class="slide" data-slide="3" data-topic="03 // HARDWARE DYNAMICS & SQUEEZED MIDDLE">
+            <div class="flex flex-wrap items-end justify-between gap-4 border-b border-dark-border pb-2.5">
+                <div>
+                    <div class="tech-pill mb-1">Hardware Volume &bull; Market Bifurcation</div>
+                    <h2 class="text-2xl lg:text-3xl font-extrabold font-display text-white">Hardware Shipments & The "Squeezed Middle" Collapse</h2>
+                </div>
+                <div class="text-xs font-mono text-slate-400">
+                    Annual Units: <span class="text-accent-purple font-bold">1.50M+</span> (52%+ FDM)
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 my-auto items-center">
+                <!-- Left Visual: Price Tier Divergence (6 Cols) -->
+                <div class="lg:col-span-6 bento-card p-5 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-sm font-bold font-display text-white">Q1 2026 YoY Shipment Growth by Price Tier</h3>
+                            <p class="text-xs text-slate-400">Entry-level surge vs. pro mid-tier compression.</p>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="slide3TierGrowthChart"></canvas>
+                    </div>
+                    <div class="flex justify-between items-center text-[11px] font-mono border-t border-dark-border pt-2 text-slate-400">
+                        <span class="text-emerald-400 font-bold">Entry (<$2.5k): +39%</span>
+                        <span class="text-rose-400 font-bold">Pro ($2.5k-$20k): -22%</span>
+                        <span class="text-accent-cyan font-bold">Industrial: +18%</span>
+                    </div>
+                </div>
+
+                <!-- Right Visual: OEM Share & "Bambu Effect" (6 Cols) -->
+                <div class="lg:col-span-6 bento-card p-5 space-y-3.5">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-sm font-bold font-display text-white">Entry-Level OEM Market Share Dominance</h3>
+                            <p class="text-xs text-slate-400">Chinese hardware ecosystem ships 88% of unit volume.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
+                        <div class="sm:col-span-6 flex flex-col items-center justify-center space-y-2">
+                            <div class="h-36 w-full">
+                                <canvas id="slide3OemChart"></canvas>
+                            </div>
+                            <!-- Clean Custom Legend (No Overlaps) -->
+                            <div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[11px] font-mono text-slate-300">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-sm bg-[#8b5cf6] inline-block"></span>
+                                    <span>Bambu Lab (29%)</span>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-sm bg-[#00f2fe] inline-block"></span>
+                                    <span>Creality / Elegoo / Anycubic (59%)</span>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-sm bg-[#38bdf8] inline-block"></span>
+                                    <span>Others (12%)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Strategic Analysis Box -->
+                        <div class="sm:col-span-6 space-y-2 text-xs">
+                            <div class="p-3.5 rounded-xl bg-accent-purple/10 border border-accent-purple/30">
+                                <div class="font-bold text-accent-purple font-mono mb-1">⚡ THE "BAMBU EFFECT"</div>
+                                <p class="text-slate-300 leading-relaxed text-[11px]">
+                                    Bambu Lab generated <strong>~$830M revenue in 2024</strong> with 1.2M unit shipments. High-speed Core-XY, automated AMS filament switching, and AI defect cameras disrupted legacy $5k+ machines.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tier Breakdown Cards with Brand Tags -->
+                    <div class="grid grid-cols-2 gap-3 text-xs">
+                        <div class="p-3 rounded-xl bg-dark-900 border border-emerald-500/30">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-emerald-400 font-bold font-mono">ENTRY (< $2.5k)</span>
+                                <span class="text-[10px] text-emerald-300 font-mono">+39% YoY</span>
+                            </div>
+                            <p class="text-slate-400 text-[11px]">Bambu Lab, Creality, Elegoo, Anycubic capturing 88% global share.</p>
+                        </div>
+                        <div class="p-3 rounded-xl bg-dark-900 border border-accent-cyan/30">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-accent-cyan font-bold font-mono">INDUSTRIAL (> $100k)</span>
+                                <span class="text-[10px] text-accent-cyan font-mono">+18% YoY</span>
+                            </div>
+                            <p class="text-slate-400 text-[11px]">Stratasys, 3D Systems, Roboze protected by heated chamber patents.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SLIDE 4: MATERIAL SCIENCE & TONNAGE MATRIX ==================== -->
+        <section class="slide" data-slide="4" data-topic="04 // MATERIAL SCIENCE & POLYMER CONSUMPTION">
+            <div class="flex flex-wrap items-end justify-between gap-4 border-b border-dark-border pb-2.5">
+                <div>
+                    <div class="tech-pill mb-1">Polymer Feedstock &bull; Chemistry Matrix</div>
+                    <h2 class="text-2xl lg:text-3xl font-extrabold font-display text-white">Thermoplastic Feedstock Tonnage & Material Science</h2>
+                </div>
+                <div class="text-xs font-mono text-accent-amber bg-accent-amber/10 px-3 py-1 rounded-full border border-accent-amber/20">
+                    64,000+ Tonnes ($1.50B Valuation)
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 my-auto items-center">
+                <!-- Left: Tonnage Volume Chart (6 Cols) -->
+                <div class="lg:col-span-6 bento-card p-5 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-sm font-bold font-display text-white">Global Filament Tonnage by Resin Family</h3>
+                            <p class="text-xs text-slate-400">Volume distribution in metric tonnes across thermoplastic classes.</p>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="slide4TonnageChart"></canvas>
+                    </div>
+                    <div class="grid grid-cols-5 gap-1.5 text-center text-[10px] font-mono pt-1 text-slate-400 border-t border-dark-border">
+                        <div class="text-accent-cyan font-bold">PLA (35%)<br>22.4k t</div>
+                        <div class="text-accent-purple font-bold">ABS (28%)<br>17.9k t</div>
+                        <div class="text-accent-sky font-bold">PETG (13%)<br>8.3k t</div>
+                        <div class="text-accent-emerald font-bold">TPU (9%)<br>5.8k t</div>
+                        <div class="text-accent-amber font-bold">Hi-Perf (15%)<br>9.6k t</div>
+                    </div>
+                </div>
+
+                <!-- Right: Interactive Material Property Radar & Photographic Spools (6 Cols) -->
+                <div class="lg:col-span-6 bento-card p-5 space-y-3">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <h3 class="text-sm font-bold font-display text-white">Interactive Material Specification Matrix</h3>
+                        <!-- Material Tabs -->
+                        <div class="flex items-center gap-1 bg-dark-900 p-1 rounded-xl border border-dark-border text-xs font-mono">
+                            <button onclick="selectMaterial('PLA')" id="matBtn-PLA" class="mat-tab px-2 py-1 rounded-lg bg-accent-cyan text-dark-950 font-bold transition text-[11px]">PLA</button>
+                            <button onclick="selectMaterial('ABS')" id="matBtn-ABS" class="mat-tab px-2 py-1 rounded-lg hover:bg-dark-750 text-slate-300 font-medium transition text-[11px]">ABS</button>
+                            <button onclick="selectMaterial('PETG')" id="matBtn-PETG" class="mat-tab px-2 py-1 rounded-lg hover:bg-dark-750 text-slate-300 font-medium transition text-[11px]">PETG</button>
+                            <button onclick="selectMaterial('TPU')" id="matBtn-TPU" class="mat-tab px-2 py-1 rounded-lg hover:bg-dark-750 text-slate-300 font-medium transition text-[11px]">TPU</button>
+                            <button onclick="selectMaterial('HIGHPERF')" id="matBtn-HIGHPERF" class="mat-tab px-2 py-1 rounded-lg hover:bg-dark-750 text-slate-300 font-medium transition text-[11px]">PEEK/CF</button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
+                        <div class="sm:col-span-6 h-44">
+                            <canvas id="slide4RadarChart"></canvas>
+                        </div>
+
+                        <!-- Dynamic Material Detail Card -->
+                        <div class="sm:col-span-6 space-y-2 text-xs" id="matDetailCard">
+                            <div class="p-3.5 rounded-xl bg-accent-cyan/10 border border-accent-cyan/30 space-y-1.5">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-bold text-accent-cyan text-sm font-display" id="matTitle">PLA (Polylactic Acid)</span>
+                                    <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-accent-cyan/20 text-accent-cyan font-bold" id="matShare">35% Vol &bull; 22,400t</span>
+                                </div>
+                                <p class="text-slate-300 text-[11px] leading-relaxed" id="matDesc">
+                                    Bio-derived polymer from corn starch. Minimal warping, non-toxic, and ultra-easy to print. Universal baseline for 95%+ of desktop users.
+                                </p>
+                                <div class="pt-1.5 border-t border-accent-cyan/20 text-[10px] font-mono text-slate-400 space-y-0.5" id="matSpecs">
+                                    <div>⚡ <strong>Best for:</strong> Prototyping, architectural models</div>
+                                    <div>🌡 <strong>HDT:</strong> ~55°C | <strong>Tensile:</strong> 50 MPa</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Spool Photo Asset Mini Banner -->
+                    <div class="relative h-20 rounded-xl overflow-hidden border border-dark-border group">
+                        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style="background-image: url('assets/filament_spools.jpg');"></div>
+                        <div class="absolute inset-0 bg-gradient-to-r from-dark-950 via-dark-950/80 to-transparent"></div>
+                        <div class="relative h-full flex items-center justify-between px-4 text-xs">
+                            <div>
+                                <span class="text-accent-amber font-mono font-bold block text-[11px]">HIGH-PERFORMANCE COMPOSITES</span>
+                                <span class="text-slate-300 text-[11px]">Carbon-Fiber, PEEK & PEKK scaling to <strong>$4.20B by 2030 (21.37% CAGR)</strong></span>
+                            </div>
+                            <span class="font-mono text-slate-400 text-[10px] bg-dark-900/80 px-2 py-1 rounded border border-dark-border">BASF / eSUN / Prusament</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SLIDE 5: VERTICAL ADOPTION & APPLICATIONS ==================== -->
+        <section class="slide" data-slide="5" data-topic="05 // INDUSTRY VERTICALS & FUNCTIONAL PRODUCTION">
+            <div class="flex flex-wrap items-end justify-between gap-4 border-b border-dark-border pb-2.5">
+                <div>
+                    <div class="tech-pill mb-1">Industrial Adoption &bull; End-Use Parts</div>
+                    <h2 class="text-2xl lg:text-3xl font-extrabold font-display text-white">End-User Industries & Application Evolution</h2>
+                </div>
+                <div class="text-xs font-mono text-accent-emerald bg-accent-emerald/10 px-3 py-1 rounded-full border border-accent-emerald/20">
+                    Serial End-Use Production: +23.28% CAGR
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 my-auto items-center">
+                <!-- Left: Donut Chart of Industry Revenue Share (5 Cols) -->
+                <div class="lg:col-span-5 bento-card p-5 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-sm font-bold font-display text-white">FDM Revenue Breakdown by Sector</h3>
+                            <p class="text-xs text-slate-400">Total global deployment across key industry verticals.</p>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="slide5IndustryChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Right: Sector Deep-Dive Cards (7 Cols) -->
+                <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <!-- Automotive Card -->
+                    <div class="bento-card p-4 border-l-4 border-l-accent-cyan space-y-1.5">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-white text-sm font-display flex items-center gap-1.5">🚗 Automotive</span>
+                            <span class="text-[10px] font-mono font-bold text-accent-cyan bg-accent-cyan/10 px-2 py-0.5 rounded">24.55% Share</span>
+                        </div>
+                        <p class="text-slate-300 text-[11px] leading-relaxed">
+                            Carbon fiber-infused assembly fixtures slashed tool lead times by <strong>90%</strong> and cut direct tooling costs by <strong>>50%</strong>.
+                        </p>
+                    </div>
+
+                    <!-- Aerospace Card -->
+                    <div class="bento-card p-4 border-l-4 border-l-accent-purple space-y-1.5">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-white text-sm font-display flex items-center gap-1.5">✈ Aerospace & Defense</span>
+                            <span class="text-[10px] font-mono font-bold text-accent-purple bg-accent-purple/10 px-2 py-0.5 rounded">21.80% Share</span>
+                        </div>
+                        <p class="text-slate-300 text-[11px] leading-relaxed">
+                            Over <strong>1,100+ flight-ready parts</strong> deployed. Uses flame-retardant ULTEM 9085 and PEKK complying with aerospace FST standards.
+                        </p>
+                    </div>
+
+                    <!-- Healthcare Card -->
+                    <div class="bento-card p-4 border-l-4 border-l-accent-emerald space-y-1.5">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-white text-sm font-display flex items-center gap-1.5">🏥 Healthcare & Medical</span>
+                            <span class="text-[10px] font-mono font-bold text-accent-emerald bg-accent-emerald/10 px-2 py-0.5 rounded">16.20% Share</span>
+                        </div>
+                        <p class="text-slate-300 text-[11px] leading-relaxed">
+                            Active in <strong>2,950+ hospitals</strong>. Mass customization of patient-matched orthotics, prosthetics, and radiopaque CT bones.
+                        </p>
+                    </div>
+
+                    <!-- Print Farms & Education Card -->
+                    <div class="bento-card p-4 border-l-4 border-l-accent-amber space-y-1.5">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-white text-sm font-display flex items-center gap-1.5">🎓 Farms & Education</span>
+                            <span class="text-[10px] font-mono font-bold text-accent-amber bg-accent-amber/10 px-2 py-0.5 rounded">26.65% Combined</span>
+                        </div>
+                        <p class="text-slate-300 text-[11px] leading-relaxed">
+                            Over <strong>9,000 schools added 3D printers</strong> in 2023. Smart micro-factories operate synchronized printers for e-commerce.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Smart Print Farm Photo Banner -->
+            <div class="relative h-20 rounded-xl overflow-hidden border border-dark-border group">
+                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style="background-image: url('assets/printer_farm.jpg');"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-dark-950 via-dark-950/85 to-transparent"></div>
+                <div class="relative h-full flex items-center justify-between px-5 text-xs">
+                    <div class="space-y-0.5">
+                        <span class="text-accent-emerald font-mono font-bold text-[11px] flex items-center gap-2">
+                            <span class="badge-pulse"></span> INDUSTRIAL PRINT FARMS & CLOUD AUTOMATION
+                        </span>
+                        <span class="text-slate-300 text-[11px]">Synchronized Core-XY clusters deliver on-demand distributed batch production with zero tooling tooling cost.</span>
+                    </div>
+                    <span class="font-mono text-emerald-400 font-bold bg-dark-900/80 px-3 py-1 rounded border border-emerald-500/30 text-xs hidden sm:inline">23.28% CAGR</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SLIDE 6: GEOPOLITICAL & REGIONAL DYNAMICS ==================== -->
+        <section class="slide" data-slide="6" data-topic="06 // GEOPOLITICS & REGIONAL DYNAMICS">
+            <div class="flex flex-wrap items-end justify-between gap-4 border-b border-dark-border pb-2.5">
+                <div>
+                    <div class="tech-pill mb-1">Geopolitics &bull; Geographic Distribution</div>
+                    <h2 class="text-2xl lg:text-3xl font-extrabold font-display text-white">Regional Market Dynamics & Manufacturing Engines</h2>
+                </div>
+                <div class="text-xs font-mono text-accent-sky bg-accent-sky/10 px-3 py-1 rounded-full border border-accent-sky/20">
+                    NA: 36.85% | APAC: 31.50% | Europe: 25.90%
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 my-auto items-center">
+                <!-- Left: Regional Market Share Bar Chart (5 Cols) -->
+                <div class="lg:col-span-5 bento-card p-5 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-sm font-bold font-display text-white">Regional FDM Revenue Share (2025)</h3>
+                            <p class="text-xs text-slate-400">Share of global revenue generated across main economic zones.</p>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="slide6RegionalChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Right: 3 Regional Focus Cards (7 Cols) -->
+                <div class="lg:col-span-7 space-y-3 text-xs">
+                    <!-- North America -->
+                    <div class="bento-card p-4 border-l-4 border-l-accent-cyan space-y-1">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-accent-cyan text-sm font-display flex items-center gap-2">🇺🇸 North America &bull; Revenue Leader</span>
+                            <span class="font-mono text-accent-cyan bg-accent-cyan/10 px-2 py-0.5 rounded font-bold">36.85% Share ($9.55B AM)</span>
+                        </div>
+                        <p class="text-slate-300 leading-relaxed text-[11px]">
+                            Anchored by the U.S. with <strong>1.2M active desktop printers</strong>, 22,000 tonnes of annual filament consumption, and massive aerospace/defense capital investments.
+                        </p>
+                    </div>
+
+                    <!-- Asia Pacific -->
+                    <div class="bento-card p-4 border-l-4 border-l-accent-purple space-y-1">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-accent-purple text-sm font-display flex items-center gap-2">🇨🇳 Asia Pacific &bull; Manufacturing Hub</span>
+                            <span class="font-mono text-accent-purple bg-accent-purple/10 px-2 py-0.5 rounded font-bold">23.7%–26.3% CAGR</span>
+                        </div>
+                        <p class="text-slate-300 leading-relaxed text-[11px]">
+                            China manufactures <strong>95% of worldwide entry-level FDM printers</strong> and installed 15,000 industrial units in a single year (40% of global total). India expands at 24.0% CAGR under PLI incentives.
+                        </p>
+                    </div>
+
+                    <!-- Europe -->
+                    <div class="bento-card p-4 border-l-4 border-l-accent-emerald space-y-1">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-accent-emerald text-sm font-display flex items-center gap-2">🇪🇺 Europe &bull; Circular Economy Leader</span>
+                            <span class="font-mono text-accent-emerald bg-accent-emerald/10 px-2 py-0.5 rounded font-bold">25.90% Share ($6.06B AM)</span>
+                        </div>
+                        <p class="text-slate-300 leading-relaxed text-[11px]">
+                            Germany (22% CAGR) and France (21.5% CAGR) lead in automotive tier-1 qualification and strict closed-loop recycling (e.g. BMW recycling 12t printer scrap into granulate).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SLIDE 7: CIRCULARITY, PELLETS (FPF) & INDUSTRY 4.0 ==================== -->
+        <section class="slide" data-slide="7" data-topic="07 // CIRCULARITY & DIRECT PELLET EXTRUSION">
+            <div class="flex flex-wrap items-end justify-between gap-4 border-b border-dark-border pb-2.5">
+                <div>
+                    <div class="tech-pill mb-1">Closed-Loop Recycling &bull; Quality Assurance</div>
+                    <h2 class="text-2xl lg:text-3xl font-extrabold font-display text-white">Recycling, Direct Pellets (FPF) & In-Situ Optical AI</h2>
+                </div>
+                <div class="text-xs font-mono text-accent-emerald bg-accent-emerald/10 px-3 py-1 rounded-full border border-accent-emerald/20">
+                    Recyclable Feedstock: $3.7B by 2033
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 my-auto items-center">
+                <!-- Left: Sustainability Market Growth (5 Cols) -->
+                <div class="lg:col-span-5 bento-card p-5 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-sm font-bold font-display text-white">Recyclable Filament & Extruders ($M)</h3>
+                            <p class="text-xs text-slate-400">Expanding from $1.4B (2025) to $3.7B (2033).</p>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="slide7SustChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Right: Interactive Pellet Extrusion (FPF) ROI Calculator (7 Cols) -->
+                <div class="lg:col-span-7 space-y-3.5">
+                    <!-- Interactive Pellet ROI Calculator Widget -->
+                    <div class="bento-card p-5 border border-accent-emerald/30 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h3 class="text-sm font-bold text-accent-emerald font-display flex items-center gap-1.5">
+                                    <span>⚙</span> Direct Pellet Extrusion (FPF / FGF) Savings Calculator
+                                </h3>
+                                <p class="text-xs text-slate-400">Directly extrude plastic regrind pellets to bypass drawing 1.75mm wire.</p>
+                            </div>
+                            <span class="text-xs font-mono font-bold text-accent-emerald bg-accent-emerald/20 px-2.5 py-0.5 rounded">~70% Savings</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs items-center">
+                            <div>
+                                <label class="text-[11px] font-mono text-slate-400 block mb-1">Monthly Feedstock (kg):</label>
+                                <input type="range" id="calcKgSlider" min="50" max="2000" step="50" value="300" oninput="updatePelletCalc()" class="w-full accent-emerald-400 cursor-pointer">
+                                <div class="flex justify-between font-mono text-[10px] text-slate-400 mt-1">
+                                    <span>50 kg</span>
+                                    <span id="calcKgValue" class="text-accent-emerald font-bold text-xs">300 kg</span>
+                                    <span>2,000 kg</span>
+                                </div>
+                            </div>
+
+                            <div class="p-3 rounded-xl bg-dark-900 border border-dark-border text-center">
+                                <span class="text-[10px] font-mono text-slate-400 block">1.75mm Filament Cost</span>
+                                <span id="calcFilamentCost" class="text-sm font-bold font-mono text-rose-400">$7,500 / mo</span>
+                                <span class="text-[9px] text-slate-500 block">@ $25/kg</span>
+                            </div>
+
+                            <div class="p-3 rounded-xl bg-dark-900 border border-emerald-500/30 text-center">
+                                <span class="text-[10px] font-mono text-accent-emerald block">Direct Pellet Cost</span>
+                                <span id="calcPelletCost" class="text-sm font-bold font-mono text-accent-emerald">$2,250 / mo</span>
+                                <span id="calcMonthlySavings" class="text-[9px] text-emerald-400 font-bold font-mono block">Save $5,250 / mo</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- In-Situ Defect AI & Quality Sensors -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div class="bento-card p-3.5 border-l-4 border-l-accent-purple space-y-1">
+                            <div class="font-bold text-accent-purple font-mono text-sm">👁 In-Situ Optical Defect AI</div>
+                            <p class="text-slate-300 text-[11px]">
+                                Real-time camera & LiDAR sensors detect layer shifts and "spaghetti" failures instantly, cutting wasted filament scrap by >35%.
+                            </p>
+                        </div>
+
+                        <div class="bento-card p-3.5 border-l-4 border-l-accent-cyan space-y-1">
+                            <div class="font-bold text-accent-cyan font-mono text-sm">☁ Cloud-Managed Print Farms</div>
+                            <p class="text-slate-300 text-[11px]">
+                                Pre-sliced verified G-code with automated telemetric health checks lowers operational barriers to 24/7 autonomous production.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SLIDE 8: STRATEGIC SYNTHESIS & 2030+ ROADMAP ==================== -->
+        <section class="slide" data-slide="8" data-topic="08 // STRATEGIC SYNTHESIS & 2030+ ROADMAP">
+            <div class="flex flex-wrap items-end justify-between gap-4 border-b border-dark-border pb-2.5">
+                <div>
+                    <div class="tech-pill mb-1">Executive Synthesis &bull; Industry Roadmap</div>
+                    <h2 class="text-2xl lg:text-3xl font-extrabold font-display text-white">Strategic Imperatives & 2030+ Roadmap</h2>
+                </div>
+                <div class="text-xs font-mono text-accent-cyan bg-accent-cyan/10 px-3 py-1 rounded-full border border-accent-cyan/20">
+                    Conclusion & Actionable Strategy
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 my-auto">
+                <!-- Pillar 1 -->
+                <div class="bento-card p-5 border-t-4 border-t-accent-cyan space-y-2 flex flex-col justify-between">
+                    <div class="w-10 h-10 rounded-xl bg-accent-cyan/10 border border-accent-cyan/30 flex items-center justify-center text-accent-cyan font-mono font-bold text-lg">01</div>
+                    <h3 class="font-bold font-display text-white text-sm">Hardware Consolidation</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        High-speed Core-XY desktop arrays replace traditional mid-tier machines. Enterprises must transition to distributed print farms for maximum cost-effectiveness.
+                    </p>
+                </div>
+
+                <!-- Pillar 2 -->
+                <div class="bento-card p-5 border-t-4 border-t-accent-purple space-y-2 flex flex-col justify-between">
+                    <div class="w-10 h-10 rounded-xl bg-accent-purple/10 border border-accent-purple/30 flex items-center justify-center text-accent-purple font-mono font-bold text-lg">02</div>
+                    <h3 class="font-bold font-display text-white text-sm">High-Performance Resins</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        Carbon-fiber, PEEK, and PEKK are replacing aluminum and structural metals in automotive and aerospace with 21.37% CAGR growth.
+                    </p>
+                </div>
+
+                <!-- Pillar 3 -->
+                <div class="bento-card p-5 border-t-4 border-t-accent-emerald space-y-2 flex flex-col justify-between">
+                    <div class="w-10 h-10 rounded-xl bg-accent-emerald/10 border border-accent-emerald/30 flex items-center justify-center text-accent-emerald font-mono font-bold text-lg">03</div>
+                    <h3 class="font-bold font-display text-white text-sm">Circular Feedstock</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        Transition toward direct pellet extrusion (FPF) and closed-loop granulators to comply with European sustainability regulations and cut material costs by 70%.
+                    </p>
+                </div>
+
+                <!-- Pillar 4 -->
+                <div class="bento-card p-5 border-t-4 border-t-accent-amber space-y-2 flex flex-col justify-between">
+                    <div class="w-10 h-10 rounded-xl bg-accent-amber/10 border border-accent-amber/30 flex items-center justify-center text-accent-amber font-mono font-bold text-lg">04</div>
+                    <h3 class="font-bold font-display text-white text-sm">Digital Quality & IoT</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        Automated in-situ camera telemetry and cloud management enable lights-out, zero-defect manufacturing for serial batch production.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Grand Synthesis Banner -->
+            <div class="bento-card p-5 border border-accent-cyan/40 bg-gradient-to-r from-dark-900 via-dark-850 to-dark-900 text-center space-y-2">
+                <div class="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-accent-cyan/20 text-accent-cyan font-mono text-[11px] font-bold">
+                    <span>⚡ FINAL STRATEGIC TAKEAWAY</span>
+                </div>
+                <h3 class="text-lg font-bold font-display text-white">FDM is Now a Proven Pillar of Decentralized Industrial Production</h3>
+                <p class="text-xs text-slate-300 max-w-4xl mx-auto leading-relaxed">
+                    With an anticipated <strong>$15.09 Billion market valuation by 2034</strong> and 64,000+ metric tonnes consumed annually, FDM provides the highest throughput-to-cost ratio in modern digital fabrication.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- BOTTOM EDITORIAL NAVIGATION BAR -->
+    <footer class="h-14 border-t border-dark-border bg-dark-900/90 backdrop-blur-xl px-6 flex items-center justify-between z-30 shrink-0">
+        <!-- Slide Step Indicator -->
+        <div class="flex items-center gap-3">
+            <span class="text-xs font-mono font-bold text-accent-cyan" id="slideNumberDisplay">01 / 08</span>
+            <div class="flex items-center gap-1.5" id="slideDotsContainer">
+                <!-- Dots generated via JS -->
+            </div>
+        </div>
+
+        <!-- Linear Progress Bar -->
+        <div class="hidden sm:block w-48 lg:w-72 h-1.5 bg-dark-800 rounded-full overflow-hidden">
+            <div id="deckProgressBar" class="h-full bg-gradient-to-r from-accent-cyan via-accent-sky to-accent-purple transition-all duration-300" style="width: 12.5%;"></div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="flex items-center gap-3">
+            <span class="hidden lg:inline text-[11px] text-slate-500 font-mono">[← / →] or [Space]</span>
+            <button id="btnPrev" onclick="navigateSlide(-1)" class="px-4 py-1.5 rounded-xl bg-dark-800 hover:bg-dark-750 text-slate-200 border border-dark-border text-xs font-mono font-semibold flex items-center gap-1.5 transition active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed">
+                <span>◀</span> PREV
+            </button>
+            <button id="btnNext" onclick="navigateSlide(1)" class="px-4 py-1.5 rounded-xl bg-accent-cyan hover:bg-accent-sky text-dark-950 font-mono font-bold text-xs flex items-center gap-1.5 transition active:scale-95 shadow-lg shadow-accent-cyan/20">
+                NEXT <span>▶</span>
+            </button>
+        </div>
+    </footer>
+
+    <!-- PRESENTER SPEAKER NOTES DRAWER (Toggle with N) -->
+    <div id="notesDrawer" class="fixed right-6 bottom-16 w-96 max-w-[calc(100vw-3rem)] bento-card p-5 border border-accent-cyan/40 z-50 shadow-2xl transition-all duration-300 transform translate-y-4 opacity-0 pointer-events-none bg-dark-900/95">
+        <div class="flex items-center justify-between border-b border-dark-border pb-2.5 mb-3">
+            <div class="flex items-center gap-2">
+                <span class="text-accent-cyan text-base">📝</span>
+                <h4 class="text-xs font-bold font-mono uppercase tracking-wider text-white">Speaker Notes & Telemetry</h4>
+            </div>
+            <button onclick="toggleNotes()" class="text-slate-400 hover:text-white text-sm font-bold">&times;</button>
+        </div>
+        <div id="notesContent" class="text-xs text-slate-300 space-y-2 max-h-64 overflow-y-auto custom-scroll leading-relaxed font-sans">
+            <!-- Dynamic notes content -->
+        </div>
+    </div>
+
+    <!-- SLIDE OVERVIEW GRID MODAL (Toggle with G) -->
+    <div id="gridModal" class="fixed inset-0 bg-dark-950/95 backdrop-blur-2xl z-50 flex items-center justify-center p-6 opacity-0 pointer-events-none transition-all duration-300">
+        <div class="max-w-5xl w-full space-y-6">
+            <div class="flex items-center justify-between border-b border-dark-border pb-3">
+                <h3 class="text-lg font-bold font-display text-white flex items-center gap-2">
+                    <span>⊞</span> Slide Deck Navigation Matrix
+                </h3>
+                <button onclick="toggleGridOverview()" class="p-2 rounded-xl bg-dark-800 text-slate-300 hover:text-white font-mono text-xs">&times; Close (Esc)</button>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="gridThumbnailsContainer">
+                <!-- Generated dynamically via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC & CHART INITIALIZATIONS -->
+    <script>
+        // ==========================================
+        // 1. STATE & SLIDE CONTROLLER CONFIG
+        // ==========================================
+        let currentSlide = 1;
+        const totalSlides = 8;
+        let isAutoplaying = false;
+        let autoplayTimer = null;
+        let isNotesOpen = false;
+        let isGridOpen = false;
+
+        const speakerNotesData = {
+            1: `<strong>Talking Points - Slide 1 (Executive Briefing):</strong><br>
+                • Welcome the audience. Highlight that FDM is no longer a hobbyist-only medium.<br>
+                • Emphasize the 4 marquee numbers: $15.09B valuation by 2034, 1.50M+ annual desktop units, 64k tonnes polymer, +39% entry growth in Q1 2026.<br>
+                • <strong>Core message:</strong> Speed improvements and automation have brought additive into factory floors.`,
+            2: `<strong>Talking Points - Slide 2 (Macroeconomics):</strong><br>
+                • Precedence Research projects $15.09B by 2034 (21.8% CAGR); Grand View projects $13.50B.<br>
+                • Highlight the shift in segment stratification: Hardware drops from 81% to 68.5% while Services surges at a 22.38% CAGR.<br>
+                • Industrial clients prefer paying service bureaus for validated parts rather than buying dedicated printers.`,
+            3: `<strong>Talking Points - Slide 3 (Hardware Dynamics & Squeezed Middle):</strong><br>
+                • Highlight the severe collapse of the $2.5k–$20k "pro" price tier (-22% YoY in Q1 2026).<br>
+                • Explain the "Bambu Effect": $1,000 desktop machines offering Core-XY speeds (500mm/s), multi-color AMS, and LiDAR make $10k legacy printers uncompetitive.<br>
+                • Chinese OEMs (Bambu Lab, Creality, Elegoo, Anycubic) ship 88% of all global entry hardware.`,
+            4: `<strong>Talking Points - Slide 4 (Material Science):</strong><br>
+                • 64,000+ metric tonnes consumed. PLA represents 35% (22.4k t) and ABS 28% (17.9k t).<br>
+                • High-performance composites (PEEK, PEKK, carbon-fiber) are the fastest-growing revenue segment (+21.37% CAGR), replacing aluminum in aerospace tooling.<br>
+                • Demo the interactive radar on right to show mechanical tradeoffs.`,
+            5: `<strong>Talking Points - Slide 5 (Vertical Applications):</strong><br>
+                • Automotive (24.55%) leads in tooling adoption (90% lead time reduction, >50% cost savings for jigs).<br>
+                • Aerospace & Defense (21.80%) retains the highest value per part with ULTEM flame-retardant parts.<br>
+                • End-use functional production represents the highest growth category (23.28% CAGR).`,
+            6: `<strong>Talking Points - Slide 6 (Geopolitical Landscape):</strong><br>
+                • North America leads in overall revenue (36.85%, $9.55B total AM) due to defense and aerospace CapEx.<br>
+                • Asia-Pacific (31.50%) is the manufacturing engine (China produces 95% of entry FDM printers) growing at 23.7%–26.3% CAGR.<br>
+                • Europe (25.90%) is the regulatory leader in circular economy and automotive scrap recycling.`,
+            7: `<strong>Talking Points - Slide 7 (Circularity & Direct Pellets):</strong><br>
+                • Recyclable filaments scaling from $1.4B to $3.7B by 2033 (12.8% CAGR).<br>
+                • Direct Pellet Extrusion (FPF/FGF) allows print farms to use shredded regrind, cutting material costs by ~70%.<br>
+                • In-situ optical sensors cut print failure rates by 35%.`,
+            8: `<strong>Talking Points - Slide 8 (Strategic Outlook):</strong><br>
+                • Synthesize the 4 strategic imperatives: Hardware arrays, engineering polymers, circularity, and IoT automation.<br>
+                • Conclude: FDM is the highest throughput-to-cost additive platform for the next decade. Invite Q&A.`
+        };
+
+        const slideTopics = [
+            "01 // EXECUTIVE BRIEFING & KPIS",
+            "02 // MACROECONOMIC TRAJECTORY (2024–2034)",
+            "03 // HARDWARE DYNAMICS & SQUEEZED MIDDLE",
+            "04 // MATERIAL SCIENCE & POLYMER CONSUMPTION",
+            "05 // INDUSTRY VERTICALS & FUNCTIONAL PRODUCTION",
+            "06 // GEOPOLITICS & REGIONAL DYNAMICS",
+            "07 // CIRCULARITY & DIRECT PELLET EXTRUSION",
+            "08 // STRATEGIC SYNTHESIS & 2030+ ROADMAP"
+        ];
+
+        // ==========================================
+        // 2. CHART.JS INITIALIZATIONS
+        // ==========================================
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.font.family = 'Inter, system-ui, sans-serif';
+
+        const chartInstances = {};
+
+        function wrapLabel(str) {
+            if (typeof str !== 'string') return str;
+            if (str.length <= 16) return str;
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + word).length > 16) {
+                    if (currentLine.trim()) lines.push(currentLine.trim());
+                    currentLine = word + ' ';
+                } else {
+                    currentLine += word + ' ';
+                }
+            });
+            if (currentLine.trim()) lines.push(currentLine.trim());
+            return lines;
+        }
+
+        const commonTooltipConfig = {
+            backgroundColor: 'rgba(9, 14, 26, 0.95)',
+            titleColor: '#00f2fe',
+            bodyColor: '#f8fafc',
+            borderColor: 'rgba(0, 242, 254, 0.3)',
+            borderWidth: 1,
+            padding: 10,
+            callbacks: {
+                title: function(items) {
+                    const item = items[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    return Array.isArray(label) ? label.join(' ') : label;
+                }
+            }
+        };
+
+        function initCharts() {
+            // Slide 2: Macroeconomic Valuation
+            const ctxMacro = document.getElementById('slide2MarketChart').getContext('2d');
+            chartInstances.macro = new Chart(ctxMacro, {
+                type: 'line',
+                data: {
+                    labels: ['2024', '2025', '2026', '2028', '2030', '2032', '2034'],
+                    datasets: [
+                        {
+                            label: 'Precedence Model ($B)',
+                            data: [2.10, 2.55, 3.30, 5.80, 8.90, 12.10, 15.09],
+                            borderColor: '#00f2fe',
+                            backgroundColor: 'rgba(0, 242, 254, 0.12)',
+                            fill: true,
+                            tension: 0.35,
+                            borderWidth: 3,
+                            pointBackgroundColor: '#00f2fe',
+                            pointRadius: 4
+                        },
+                        {
+                            label: 'Grand View Model ($B)',
+                            data: [2.10, 2.60, 3.20, 5.40, 8.20, 11.50, 13.50],
+                            borderColor: '#8b5cf6',
+                            backgroundColor: 'transparent',
+                            borderDash: [5, 5],
+                            borderWidth: 2.5,
+                            pointBackgroundColor: '#8b5cf6',
+                            pointRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: commonTooltipConfig,
+                        legend: { position: 'top', labels: { boxWidth: 12, color: '#cbd5e1' } }
+                    },
+                    scales: {
+                        x: { grid: { color: 'rgba(255, 255, 255, 0.05)' } },
+                        y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, title: { display: true, text: 'USD Billions ($B)' } }
+                    }
+                }
+            });
+
+            // Slide 2: Segment Stratification
+            const ctxSegment = document.getElementById('slide2SegmentChart').getContext('2d');
+            chartInstances.segment = new Chart(ctxSegment, {
+                type: 'bar',
+                data: {
+                    labels: ['2025 Base', '2028 Projected', '2031 Projected'].map(wrapLabel),
+                    datasets: [
+                        { label: 'Hardware', data: [81.05, 74.00, 68.50], backgroundColor: '#00f2fe' },
+                        { label: 'Services', data: [12.45, 18.20, 22.38], backgroundColor: '#8b5cf6' },
+                        { label: 'Materials', data: [6.50, 7.80, 9.12], backgroundColor: '#f59e0b' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: commonTooltipConfig,
+                        legend: { position: 'top', labels: { boxWidth: 10, color: '#cbd5e1', font: { size: 10 } } }
+                    },
+                    scales: {
+                        x: { stacked: true, grid: { color: 'transparent' } },
+                        y: { stacked: true, max: 100, grid: { color: 'rgba(255, 255, 255, 0.05)' }, title: { display: true, text: 'Share (%)' } }
+                    }
+                }
+            });
+
+            // Slide 3: Price Tier YoY Growth
+            const ctxTier = document.getElementById('slide3TierGrowthChart').getContext('2d');
+            chartInstances.tier = new Chart(ctxTier, {
+                type: 'bar',
+                data: {
+                    labels: ['Entry-Level (<$2.5k)', 'Professional ($2.5k-$20k)', 'Mid-Range ($20k-$100k)', 'Industrial (>$100k)'].map(wrapLabel),
+                    datasets: [{
+                        label: 'Q1 2026 YoY Growth (%)',
+                        data: [39, -22, -6, 18],
+                        backgroundColor: ['#10b981', '#f43f5e', '#f59e0b', '#00f2fe'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: commonTooltipConfig,
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, title: { display: true, text: 'YoY Growth Rate (%)' } },
+                        y: { grid: { color: 'transparent' } }
+                    }
+                }
+            });
+
+            // Slide 3: OEM Market Share
+            const ctxOem = document.getElementById('slide3OemChart').getContext('2d');
+            chartInstances.oem = new Chart(ctxOem, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Bambu Lab (29%)', 'Creality / Elegoo / Anycubic (59%)', 'Others (12%)'],
+                    datasets: [{
+                        data: [29, 59, 12],
+                        backgroundColor: ['#8b5cf6', '#00f2fe', '#38bdf8'],
+                        borderColor: '#090e1a',
+                        borderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: commonTooltipConfig,
+                        legend: { display: false }
+                    },
+                    cutout: '65%'
+                }
+            });
+
+            // Slide 4: Tonnage Consumption
+            const ctxTonnage = document.getElementById('slide4TonnageChart').getContext('2d');
+            chartInstances.tonnage = new Chart(ctxTonnage, {
+                type: 'bar',
+                data: {
+                    labels: ['PLA', 'ABS', 'High-Perf', 'PETG', 'TPU'].map(wrapLabel),
+                    datasets: [{
+                        label: '2023 Volume (Tonnes)',
+                        data: [22400, 17900, 9600, 8300, 5800],
+                        backgroundColor: ['#00f2fe', '#8b5cf6', '#f59e0b', '#38bdf8', '#10b981'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: commonTooltipConfig,
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { grid: { color: 'transparent' } },
+                        y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, title: { display: true, text: 'Metric Tonnes' } }
+                    }
+                }
+            });
+
+            // Slide 4: Material Property Radar
+            const ctxRadar = document.getElementById('slide4RadarChart').getContext('2d');
+            chartInstances.radar = new Chart(ctxRadar, {
+                type: 'radar',
+                data: {
+                    labels: ['Print Ease', 'Tensile Strength', 'Thermal Resistance', 'Impact Toughness', 'Cost Efficiency'],
+                    datasets: [{
+                        label: 'PLA Properties',
+                        data: [95, 70, 30, 45, 95],
+                        backgroundColor: 'rgba(0, 242, 254, 0.25)',
+                        borderColor: '#00f2fe',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#00f2fe'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: commonTooltipConfig
+                    },
+                    scales: {
+                        r: {
+                            min: 0,
+                            max: 100,
+                            ticks: { display: false, stepSize: 25 },
+                            grid: { color: 'rgba(255, 255, 255, 0.08)' },
+                            angleLines: { color: 'rgba(255, 255, 255, 0.08)' },
+                            pointLabels: { color: '#94a3b8', font: { size: 9 } }
+                        }
+                    }
+                }
+            });
+
+            // Slide 5: Vertical Revenue Share
+            const ctxIndustry = document.getElementById('slide5IndustryChart').getContext('2d');
+            chartInstances.industry = new Chart(ctxIndustry, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Automotive (24.55%)', 'Aerospace (21.80%)', 'Healthcare (16.20%)', 'Consumer (14.50%)', 'Education (12.15%)', 'Industrial & Other (10.80%)'],
+                    datasets: [{
+                        data: [24.55, 21.80, 16.20, 14.50, 12.15, 10.80],
+                        backgroundColor: ['#00f2fe', '#8b5cf6', '#10b981', '#f59e0b', '#38bdf8', '#ec4899'],
+                        borderColor: '#090e1a',
+                        borderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: commonTooltipConfig,
+                        legend: { 
+                            position: 'bottom', 
+                            labels: { 
+                                boxWidth: 10, 
+                                padding: 8,
+                                color: '#cbd5e1', 
+                                font: { size: 10 } 
+                            } 
+                        }
+                    },
+                    cutout: '60%'
+                }
+            });
+
+            // Slide 6: Regional Market Share
+            const ctxRegional = document.getElementById('slide6RegionalChart').getContext('2d');
+            chartInstances.regional = new Chart(ctxRegional, {
+                type: 'bar',
+                data: {
+                    labels: ['North America', 'Asia Pacific', 'Europe', 'Rest of World'].map(wrapLabel),
+                    datasets: [{
+                        label: '2025 Revenue Share (%)',
+                        data: [36.85, 31.50, 25.90, 5.75],
+                        backgroundColor: ['#00f2fe', '#8b5cf6', '#10b981', '#64748b'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: commonTooltipConfig,
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { grid: { color: 'transparent' } },
+                        y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, max: 50, title: { display: true, text: 'Share (%)' } }
+                    }
+                }
+            });
+
+            // Slide 7: Sustainability Market
+            const ctxSust = document.getElementById('slide7SustChart').getContext('2d');
+            chartInstances.sust = new Chart(ctxSust, {
+                type: 'bar',
+                data: {
+                    labels: ['2023 Base', '2025 Current', '2030 Proj', '2033 Proj'].map(wrapLabel),
+                    datasets: [
+                        { label: 'Recyclable Filament ($M)', data: [950, 1400, 2750, 3700], backgroundColor: '#10b981', borderRadius: 4 },
+                        { label: 'Desktop Extruders ($M)', data: [240, 312, 540, 720], backgroundColor: '#f97316', borderRadius: 4 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: commonTooltipConfig,
+                        legend: { position: 'top', labels: { boxWidth: 10, color: '#cbd5e1', font: { size: 10 } } }
+                    },
+                    scales: {
+                        x: { grid: { color: 'transparent' } },
+                        y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, title: { display: true, text: 'USD Millions ($M)' } }
+                    }
+                }
+            });
+        }
+
+        // ==========================================
+        // 3. NAVIGATION & UI UPDATES
+        // ==========================================
+        function updateSlideUI() {
+            document.querySelectorAll('.slide').forEach((s, idx) => {
+                if (idx + 1 === currentSlide) {
+                    s.classList.add('active');
+                } else {
+                    s.classList.remove('active');
+                }
+            });
+
+            document.getElementById('slideNumberDisplay').innerText = `0${currentSlide} / 0${totalSlides}`;
+            document.getElementById('deckProgressBar').style.width = `${(currentSlide / totalSlides) * 100}%`;
+            document.getElementById('topicText').innerText = slideTopics[currentSlide - 1];
+
+            const dotsContainer = document.getElementById('slideDotsContainer');
+            dotsContainer.innerHTML = '';
+            for (let i = 1; i <= totalSlides; i++) {
+                const dot = document.createElement('button');
+                dot.onclick = () => goToSlide(i);
+                dot.className = `w-2 h-2 rounded-full transition-all ${i === currentSlide ? 'bg-accent-cyan w-5' : 'bg-dark-700 hover:bg-slate-500'}`;
+                dotsContainer.appendChild(dot);
+            }
+
+            document.getElementById('btnPrev').disabled = (currentSlide === 1);
+            document.getElementById('btnNext').innerText = (currentSlide === totalSlides) ? 'FINISH 🏁' : 'NEXT ▶';
+            document.getElementById('notesContent').innerHTML = speakerNotesData[currentSlide] || "No additional notes for this slide.";
+        }
+
+        function navigateSlide(direction) {
+            const target = currentSlide + direction;
+            if (target >= 1 && target <= totalSlides) {
+                currentSlide = target;
+                updateSlideUI();
+            } else if (target > totalSlides && isAutoplaying) {
+                toggleAutoplay();
+            }
+        }
+
+        function goToSlide(slideNum) {
+            if (slideNum >= 1 && slideNum <= totalSlides) {
+                currentSlide = slideNum;
+                updateSlideUI();
+                if (isGridOpen) toggleGridOverview();
+            }
+        }
+
+        // ==========================================
+        // 4. KEYBOARD SHORTCUTS
+        // ==========================================
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                e.preventDefault();
+                navigateSlide(1);
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                e.preventDefault();
+                navigateSlide(-1);
+            } else if (e.key === 'Home') {
+                goToSlide(1);
+            } else if (e.key === 'End') {
+                goToSlide(totalSlides);
+            } else if (e.key === 'n' || e.key === 'N') {
+                toggleNotes();
+            } else if (e.key === 'g' || e.key === 'G') {
+                toggleGridOverview();
+            } else if (e.key === 'f' || e.key === 'F') {
+                toggleFullscreen();
+            } else if (e.key === 'a' || e.key === 'A') {
+                toggleAutoplay();
+            } else if (e.key === 'Escape') {
+                if (isGridOpen) toggleGridOverview();
+                if (isNotesOpen) toggleNotes();
+            }
+        });
+
+        // ==========================================
+        // 5. UTILITY TOGGLES
+        // ==========================================
+        function toggleNotes() {
+            const drawer = document.getElementById('notesDrawer');
+            isNotesOpen = !isNotesOpen;
+            if (isNotesOpen) {
+                drawer.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+                drawer.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0');
+            } else {
+                drawer.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+                drawer.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0');
+            }
+        }
+
+        function toggleGridOverview() {
+            const modal = document.getElementById('gridModal');
+            isGridOpen = !isGridOpen;
+            if (isGridOpen) {
+                renderGridThumbnails();
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modal.classList.add('opacity-100', 'pointer-events-auto');
+            } else {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                modal.classList.remove('opacity-100', 'pointer-events-auto');
+            }
+        }
+
+        function renderGridThumbnails() {
+            const container = document.getElementById('gridThumbnailsContainer');
+            container.innerHTML = '';
+            for (let i = 1; i <= totalSlides; i++) {
+                const item = document.createElement('div');
+                item.onclick = () => goToSlide(i);
+                item.className = `bento-card p-4 cursor-pointer border ${i === currentSlide ? 'border-accent-cyan bg-cyan-950/40' : 'border-dark-border'}`;
+                item.innerHTML = `
+                    <div class="flex items-center justify-between text-xs mb-2">
+                        <span class="font-mono font-bold text-accent-cyan">Slide 0${i}</span>
+                        ${i === currentSlide ? '<span class="text-[10px] bg-accent-cyan/20 text-accent-cyan px-1.5 py-0.5 rounded font-bold font-mono">Active</span>' : ''}
+                    </div>
+                    <div class="text-xs font-bold text-white mb-1 font-display line-clamp-1">${slideTopics[i - 1]}</div>
+                    <div class="text-[10px] text-slate-400 line-clamp-2">${i === 1 ? 'Hero KPIs & Core-XY Hardware' : i === 2 ? 'Macro Valuation & Stratification' : i === 3 ? 'Price Tier Divergence & OEM Share' : i === 4 ? 'Resin Families & Property Radar' : i === 5 ? 'Automotive, Aero & Smart Farms' : i === 6 ? 'North America, APAC & Europe' : i === 7 ? 'Recycling, FPF Pellets & In-situ QA' : 'Strategic Synthesis & Roadmap'}</div>
+                `;
+                container.appendChild(item);
+            }
+        }
+
+        function toggleAutoplay() {
+            isAutoplaying = !isAutoplaying;
+            const btn = document.getElementById('btnAutoplay');
+            const icon = document.getElementById('autoplayIcon');
+            if (isAutoplaying) {
+                icon.innerText = '⏸';
+                btn.classList.add('border-accent-cyan', 'text-accent-cyan');
+                autoplayTimer = setInterval(() => {
+                    if (currentSlide < totalSlides) {
+                        navigateSlide(1);
+                    } else {
+                        goToSlide(1);
+                    }
+                }, 8000);
+            } else {
+                icon.innerText = '▶';
+                btn.classList.remove('border-accent-cyan', 'text-accent-cyan');
+                clearInterval(autoplayTimer);
+            }
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => alert(`Fullscreen error: ${err.message}`));
+                document.getElementById('fullscreenIcon').innerText = '✕';
+            } else {
+                document.exitFullscreen();
+                document.getElementById('fullscreenIcon').innerText = '⛶';
+            }
+        }
+
+        // ==========================================
+        // 6. INTERACTIVE WIDGETS
+        // ==========================================
+        function updateMacroChart(model) {
+            const chart = chartInstances.macro;
+            const btnP = document.getElementById('btnPrecedence');
+            const btnG = document.getElementById('btnGrandView');
+            const btnB = document.getElementById('btnBoth');
+
+            [btnP, btnG, btnB].forEach(b => {
+                b.className = "px-3 py-1 rounded-lg hover:bg-dark-750 text-slate-300 font-medium transition text-xs font-mono";
+            });
+
+            if (model === 'precedence') {
+                btnP.className = "px-3 py-1 rounded-lg bg-accent-cyan text-dark-950 font-bold transition text-xs font-mono";
+                chart.data.datasets[0].hidden = false;
+                chart.data.datasets[1].hidden = true;
+            } else if (model === 'grandview') {
+                btnG.className = "px-3 py-1 rounded-lg bg-accent-purple text-white font-bold transition text-xs font-mono";
+                chart.data.datasets[0].hidden = true;
+                chart.data.datasets[1].hidden = false;
+            } else {
+                btnB.className = "px-3 py-1 rounded-lg bg-slate-200 text-dark-950 font-bold transition text-xs font-mono";
+                chart.data.datasets[0].hidden = false;
+                chart.data.datasets[1].hidden = false;
+            }
+            chart.update();
+        }
+
+        const materialsData = {
+            'PLA': {
+                name: 'PLA (Polylactic Acid)',
+                share: '35% Vol • 22,400 Tonnes',
+                desc: 'Bio-derived polymer from corn starch. Minimal warping, non-toxic, and ultra-easy to print. Universal baseline for 95%+ of desktop users.',
+                specs: '⚡ <strong>Best for:</strong> Prototyping, architectural models, aesthetics<br>🌡 <strong>HDT:</strong> ~55°C | <strong>Tensile:</strong> 50 MPa',
+                radar: [95, 70, 30, 45, 95],
+                color: '#00f2fe',
+                bg: 'rgba(0, 242, 254, 0.25)'
+            },
+            'ABS': {
+                name: 'ABS (Acrylonitrile Butadiene Styrene)',
+                share: '28% Vol • 17,900 Tonnes',
+                desc: 'Petroleum-based engineering polymer with superior impact strength and thermal resistance. Deeply entrenched in automotive tooling (4,600t in 2023).',
+                specs: '⚡ <strong>Best for:</strong> Automotive assembly jigs, functional enclosures<br>🌡 <strong>HDT:</strong> ~98°C | <strong>Tensile:</strong> 42 MPa',
+                radar: [60, 65, 80, 85, 80],
+                color: '#8b5cf6',
+                bg: 'rgba(139, 92, 246, 0.25)'
+            },
+            'PETG': {
+                name: 'PETG (Polyethylene Terephthalate Glycol)',
+                share: '13% Vol • 8,300 Tonnes',
+                desc: 'Combines PLA printability with ABS toughness and chemical resistance. +18% surge in consumer packaging and chemical lab equipment.',
+                specs: '⚡ <strong>Best for:</strong> Waterproof containers, snap-fit joints, lab fixtures<br>🌡 <strong>HDT:</strong> ~75°C | <strong>Tensile:</strong> 52 MPa',
+                radar: [80, 75, 65, 78, 85],
+                color: '#38bdf8',
+                bg: 'rgba(56, 189, 248, 0.25)'
+            },
+            'TPU': {
+                name: 'TPU (Thermoplastic Polyurethane)',
+                share: '9% Vol • 5,800 Tonnes',
+                desc: 'Semi-flexible elastomer with up to 600% elongation at break. Crucial for custom footwear midsoles, vibration dampening, and prosthetics.',
+                specs: '⚡ <strong>Best for:</strong> Gaskets, wearable devices, orthopedic cushions<br>🌡 <strong>HDT:</strong> ~60°C | <strong>Elongation:</strong> 600%',
+                radar: [50, 45, 50, 98, 70],
+                color: '#10b981',
+                bg: 'rgba(16, 185, 129, 0.25)'
+            },
+            'HIGHPERF': {
+                name: 'High-Performance (PEEK / PEKK / Carbon-Fiber)',
+                share: '15% Vol • 9,600 Tonnes',
+                desc: 'Continuous carbon-fiber infused polymers and polyetherketones with exceptional strength-to-weight ratio replacing structural metals.',
+                specs: '⚡ <strong>Best for:</strong> Aerospace brackets, under-the-hood engine parts<br>🌡 <strong>HDT:</strong> 150°C–260°C | <strong>Tensile:</strong> 100+ MPa',
+                radar: [40, 98, 98, 90, 40],
+                color: '#f59e0b',
+                bg: 'rgba(245, 158, 11, 0.25)'
+            }
+        };
+
+        function selectMaterial(matKey) {
+            const data = materialsData[matKey];
+            if (!data) return;
+
+            document.querySelectorAll('.mat-tab').forEach(btn => {
+                btn.className = "mat-tab px-2 py-1 rounded-lg hover:bg-dark-750 text-slate-300 font-medium transition text-[11px]";
+            });
+            const activeBtn = document.getElementById(`matBtn-${matKey}`);
+            if (activeBtn) activeBtn.className = "mat-tab px-2 py-1 rounded-lg bg-accent-cyan text-dark-950 font-bold transition text-[11px]";
+
+            document.getElementById('matTitle').innerText = data.name;
+            document.getElementById('matTitle').style.color = data.color;
+            document.getElementById('matShare').innerText = data.share;
+            document.getElementById('matDesc').innerText = data.desc;
+            document.getElementById('matSpecs').innerHTML = data.specs;
+
+            const radar = chartInstances.radar;
+            radar.data.datasets[0].label = `${data.name} Profile`;
+            radar.data.datasets[0].data = data.radar;
+            radar.data.datasets[0].borderColor = data.color;
+            radar.data.datasets[0].backgroundColor = data.bg;
+            radar.data.datasets[0].pointBackgroundColor = data.color;
+            radar.update();
+        }
+
+        function updatePelletCalc() {
+            const kg = parseInt(document.getElementById('calcKgSlider').value, 10);
+            document.getElementById('calcKgValue').innerText = `${kg.toLocaleString()} kg`;
+
+            const filamentPricePerKg = 25;
+            const pelletPricePerKg = 7.5;
+
+            const filamentTotal = kg * filamentPricePerKg;
+            const pelletTotal = kg * pelletPricePerKg;
+            const savings = filamentTotal - pelletTotal;
+
+            document.getElementById('calcFilamentCost').innerText = `$${filamentTotal.toLocaleString()} / mo`;
+            document.getElementById('calcPelletCost').innerText = `$${pelletTotal.toLocaleString()} / mo`;
+            document.getElementById('calcMonthlySavings').innerText = `Save $${savings.toLocaleString()} / mo (${Math.round((savings/filamentTotal)*100)}%)`;
+        }
+
+        // ==========================================
+        // 7. BOOTSTRAP
+        // ==========================================
+        window.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            updateSlideUI();
+            updatePelletCalc();
+        });
+    </script>
+</body>
+</html>
