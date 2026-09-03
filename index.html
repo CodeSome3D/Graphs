@@ -1,25 +1,927 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codesome3D - Graphs Hub</title>
+    <title>Codesome3D // Interactive Infographics & Data Visualizations Hub</title>
+    <meta name="description" content="Next-generation interactive scientific infographics, 3D WebGL data models, and market intelligence dashboards by Codesome3D.">
+
+    <!-- Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        display: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+                        grotesk: ['"Space Grotesk"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        dark: {
+                            950: '#040711',
+                            900: '#080d1a',
+                            850: '#0e1526',
+                            800: '#141e34',
+                            750: '#1b2742',
+                            700: '#233355',
+                        },
+                        cyber: {
+                            cyan: '#00f2fe',
+                            blue: '#38bdf8',
+                            purple: '#a855f7',
+                            violet: '#8b5cf6',
+                            emerald: '#10b981',
+                            amber: '#f59e0b',
+                            rose: '#f43f5e',
+                        }
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'scanline': 'scanline 8s linear infinite',
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+                            '50%': { opacity: '0.8', transform: 'scale(1.05)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' },
+                        },
+                        scanline: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(1000%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --glow-color: rgba(0, 242, 254, 0.15);
+            --card-glass: rgba(14, 21, 38, 0.65);
+            --card-glass-hover: rgba(20, 30, 52, 0.85);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --border-glow: rgba(56, 189, 248, 0.35);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #040711;
+            color: #f1f5f9;
+            overflow-x: hidden;
+            font-family: 'Inter', system-ui, sans-serif;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.12) 0%, transparent 60%),
+                radial-gradient(circle at 10% 40%, rgba(168, 85, 247, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 90% 70%, rgba(0, 242, 254, 0.07) 0%, transparent 50%),
+                linear-gradient(to bottom, #040711, #080d1a);
+            background-attachment: fixed;
+        }
+
+        /* Ambient Glowing Background Grid */
+        .grid-bg {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+
+        /* Glassmorphism Surface */
+        .glass-panel {
+            background: var(--card-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glass);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-panel:hover {
+            border-color: var(--border-glow);
+            box-shadow: 0 12px 36px -10px rgba(0, 242, 254, 0.18),
+                        0 0 20px 2px rgba(56, 189, 248, 0.1);
+        }
+
+        /* Mouse Spotlight on Cards */
+        .spotlight-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .spotlight-card::before {
+            content: '';
+            position: absolute;
+            top: var(--mouse-y, -200px);
+            left: var(--mouse-x, -200px);
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .spotlight-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #040711;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #38bdf8;
+        }
+
+        /* Shimmer text effect */
+        .text-shimmer {
+            background: linear-gradient(90deg, #ffffff 0%, #38bdf8 50%, #ffffff 100%);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            animation: textShimmer 6s linear infinite;
+        }
+
+        @keyframes textShimmer {
+            to { background-position: 200% center; }
+        }
+
+        /* Preview Modal */
+        dialog::backdrop {
+            background: rgba(4, 7, 17, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        /* Audio Indicator Pulse */
+        .audio-wave span {
+            display: inline-block;
+            width: 2px;
+            height: 10px;
+            background-color: #38bdf8;
+            border-radius: 1px;
+            margin: 0 1px;
+            animation: audioBounce 1.2s ease-in-out infinite alternate;
+        }
+        .audio-wave span:nth-child(2) { animation-delay: 0.2s; height: 14px; }
+        .audio-wave span:nth-child(3) { animation-delay: 0.4s; height: 8px; }
+        .audio-wave span:nth-child(4) { animation-delay: 0.6s; height: 16px; }
+
+        @keyframes audioBounce {
+            0% { transform: scaleY(0.3); }
+            100% { transform: scaleY(1.1); }
+        }
+    </style>
 </head>
-<body class="bg-[#121212] text-white flex flex-col items-center justify-center h-screen m-0 font-sans">
-    
-    <div class="text-center bg-[#1e1e1e] p-10 rounded-lg shadow-lg shadow-black/50 w-full max-w-[400px] mx-4">
-        <h1 class="text-2xl font-bold text-gray-100 mb-2 mt-0">Data Visualizations</h1>
-        <p class="text-gray-400 mb-6">Select a project to view the graphs:</p>
+<body class="min-h-screen flex flex-col justify-between selection:bg-cyan-500/30 selection:text-cyan-200">
 
-        <a href="00_3d_printers_test/index.html" class="block bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-5 my-3 rounded-md text-lg transition-colors duration-200">
-            3D Printers Test
-        </a>
+    <!-- Interactive Background Canvas for subtle particles -->
+    <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
 
-        <a href="01_ai_worldwide/index.html" class="block bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-5 my-3 rounded-md text-lg transition-colors duration-200">
-            AI Worldwide
-        </a>
-    </div>
+    <!-- Background Grid overlay -->
+    <div class="fixed inset-0 grid-bg pointer-events-none z-0"></div>
 
+    <!-- Top Glow Orb -->
+    <div class="fixed -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-gradient-to-b from-cyan-500/15 via-purple-500/10 to-transparent blur-3xl pointer-events-none z-0"></div>
+
+    <!-- Master Header -->
+    <header class="relative z-20 border-b border-white/5 bg-dark-950/70 backdrop-blur-xl sticky top-0 px-4 sm:px-8 py-3.5 transition-all">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            
+            <!-- Brand Logo & Live Badge -->
+            <div class="flex items-center gap-3.5">
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <div class="relative w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-500 via-sky-600 to-purple-600 p-[1px] shadow-lg shadow-cyan-500/20 group-hover:shadow-cyan-500/40 transition-all duration-300">
+                        <div class="w-full h-full bg-dark-950 rounded-[11px] flex items-center justify-center">
+                            <svg class="w-5 h-5 text-cyan-400 group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                            </svg>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-display font-extrabold text-lg tracking-tight text-white group-hover:text-cyan-400 transition-colors">CODESOME<span class="text-cyan-400">3D</span></span>
+                            <span class="text-[10px] font-mono uppercase bg-cyan-950/80 text-cyan-300 border border-cyan-500/30 px-1.5 py-0.5 rounded">HUB v2.6</span>
+                        </div>
+                        <p class="text-[11px] font-mono text-slate-400 hidden sm:block">Interactive Scientific & Market Infographics</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Global Controls & Status -->
+            <div class="flex items-center gap-3">
+                <!-- Live System Indicator -->
+                <div class="hidden md:flex items-center gap-2 bg-dark-900/80 border border-white/5 rounded-full px-3 py-1 text-xs font-mono text-slate-300">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    <span>ONLINE // 2 SUITES ACTIVE</span>
+                </div>
+
+                <!-- Interactive Audio FX Toggle -->
+                <button id="sound-toggle-btn" class="p-2 rounded-lg bg-dark-900 border border-white/10 hover:border-cyan-500/40 text-slate-400 hover:text-cyan-300 transition-all text-xs font-mono flex items-center gap-1.5" title="Toggle UI Sound Effects">
+                    <svg id="sound-icon-on" class="w-4 h-4 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    </svg>
+                    <svg id="sound-icon-off" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <line x1="23" y1="9" x2="17" y2="15"></line>
+                        <line x1="17" y1="9" x2="23" y2="15"></line>
+                    </svg>
+                    <span class="hidden sm:inline text-[11px]" id="sound-label">SFX OFF</span>
+                </button>
+
+                <!-- Keyboard shortcuts guide modal button -->
+                <button id="shortcuts-btn" class="p-2 rounded-lg bg-dark-900 border border-white/10 hover:border-cyan-500/40 text-slate-400 hover:text-cyan-300 transition-all text-xs font-mono" title="View Keyboard Shortcuts">
+                    <kbd class="px-1.5 py-0.5 rounded bg-dark-800 border border-white/10 text-[10px] text-slate-300 font-mono">?</kbd>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 py-8 sm:py-12 flex-1 w-full">
+        
+        <!-- Hero Section -->
+        <section class="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-300 text-xs font-mono mb-5 shadow-inner">
+                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                <span>EXPLORE RESEARCH & ANALYTICS VISUALIZATIONS</span>
+            </div>
+
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-display font-black tracking-tight text-white leading-tight mb-4">
+                Visual Intelligence & <br>
+                <span class="text-shimmer">Deep Analytics Portal</span>
+            </h1>
+
+            <p class="text-slate-400 text-sm sm:text-base lg:text-lg leading-relaxed mb-8">
+                Interactive multi-dimensional infographics, 3D WebGL computational maps, and 10-year market forecasting engines engineered for high-density analysis.
+            </p>
+
+            <!-- Search and Filter Hub -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-2xl mx-auto">
+                <div class="relative w-full">
+                    <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input 
+                        type="text" 
+                        id="search-input" 
+                        placeholder="Search infographics, tags, models... (Press '/' to focus)" 
+                        class="w-full bg-dark-900/80 border border-white/10 focus:border-cyan-400/80 rounded-xl pl-10 pr-12 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 backdrop-blur-md transition-all font-sans"
+                    >
+                    <span class="absolute right-3.5 top-1/2 -translate-y-1/2 px-1.5 py-0.5 rounded bg-dark-800 border border-white/10 text-[10px] font-mono text-slate-400 hidden sm:inline">/</span >
+                </div>
+
+                <!-- Filter Category Tabs -->
+                <div class="flex items-center gap-1.5 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
+                    <button class="filter-btn active px-3.5 py-2.5 rounded-xl text-xs font-medium bg-cyan-500 text-dark-950 font-semibold shadow-lg shadow-cyan-500/20 transition-all whitespace-nowrap" data-filter="all">All</button>
+                    <button class="filter-btn px-3.5 py-2.5 rounded-xl text-xs font-medium bg-dark-900/80 hover:bg-dark-800 border border-white/10 text-slate-300 hover:text-white transition-all whitespace-nowrap" data-filter="ai">AI & Compute</button>
+                    <button class="filter-btn px-3.5 py-2.5 rounded-xl text-xs font-medium bg-dark-900/80 hover:bg-dark-800 border border-white/10 text-slate-300 hover:text-white transition-all whitespace-nowrap" data-filter="3d">3D Printing</button>
+                </div>
+            </div>
+
+            <!-- Quick Metrics Counter -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto mt-8 pt-8 border-t border-white/5">
+                <div class="text-center">
+                    <div class="text-xl sm:text-2xl font-grotesk font-bold text-cyan-400">2</div>
+                    <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Research Suites</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-xl sm:text-2xl font-grotesk font-bold text-purple-400">10+</div>
+                    <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Data Dimensions</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-xl sm:text-2xl font-grotesk font-bold text-emerald-400">3D WebGL</div>
+                    <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Geospatial Globe</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-xl sm:text-2xl font-grotesk font-bold text-amber-400">2024–34</div>
+                    <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Forecast Span</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Showcase Grid -->
+        <section id="projects-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch mb-16">
+            
+            <!-- PROJECT CARD 1: World State of AI (2026 Edition) -->
+            <article 
+                class="project-card spotlight-card glass-panel rounded-2xl overflow-hidden flex flex-col group border border-white/10 hover:border-purple-500/40 relative"
+                data-category="ai"
+                data-title="World State of AI (2026 Edition)"
+                data-tags="ai machine learning compute 3d webgl globe three.js reasoning nuclear datacenter"
+            >
+                <!-- Card Header Visual / Banner -->
+                <div class="relative h-56 sm:h-64 overflow-hidden bg-dark-900">
+                    <img 
+                        src="01_ai_worldwide/assets/images/slide1_datacenter.jpg" 
+                        alt="World State of AI 2026 Preview" 
+                        class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 filter brightness-90 group-hover:brightness-100"
+                    >
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark-950 via-dark-950/40 to-transparent"></div>
+                    
+                    <!-- Floating Badges Top -->
+                    <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between pointer-events-none">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-purple-950/80 backdrop-blur-md border border-purple-500/40 text-purple-300 text-[11px] font-mono font-bold tracking-wide">
+                            <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
+                            SUITE 01 // 3D WEBGL
+                        </span>
+                        <span class="px-2.5 py-1 rounded-md bg-dark-950/80 backdrop-blur-md border border-white/10 text-slate-300 text-[11px] font-mono">
+                            LIVE // 2026-Q3
+                        </span>
+                    </div>
+
+                    <!-- Floating Title in visual -->
+                    <div class="absolute bottom-4 left-5 right-5">
+                        <div class="flex items-center gap-2 text-purple-400 text-xs font-mono mb-1">
+                            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
+                            <span>Geospatial Compute & Frontier Reasoning</span>
+                        </div>
+                        <h2 class="text-xl sm:text-2xl font-display font-bold text-white tracking-tight group-hover:text-purple-300 transition-colors">
+                            World State of AI <span class="text-purple-400 font-mono text-sm">(2026 Edition)</span>
+                        </h2>
+                    </div>
+                </div>
+
+                <!-- Card Body -->
+                <div class="p-6 flex-1 flex flex-col justify-between space-y-6">
+                    <div>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                            High-fidelity interactive scientific dashboard featuring a 3D WebGL Earth globe modeling global AI cluster distributions, reasoning architectures, nuclear energy contracts, and autonomous enterprise systems.
+                        </p>
+
+                        <!-- Key Metrics Ribbon -->
+                        <div class="grid grid-cols-3 gap-2 bg-dark-900/60 p-3 rounded-xl border border-white/5 font-mono text-xs mb-4">
+                            <div>
+                                <span class="text-slate-400 block text-[10px]">Compute Fleet</span>
+                                <strong class="text-purple-300 font-grotesk text-sm">54.2 ExaFLOPS</strong>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 block text-[10px]">Reasoning Shift</span>
+                                <strong class="text-cyan-300 font-grotesk text-sm">87% Automated</strong>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 block text-[10px]">Color Themes</span>
+                                <strong class="text-emerald-300 font-grotesk text-sm">IBM / Wong / Cyber</strong>
+                            </div>
+                        </div>
+
+                        <!-- Feature Chips -->
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="px-2 py-0.5 rounded bg-purple-950/40 border border-purple-500/20 text-purple-300 text-[11px] font-mono">Three.js 3D Globe</span>
+                            <span class="px-2 py-0.5 rounded bg-dark-800/80 border border-white/5 text-slate-300 text-[11px] font-mono">Presenter Auto-Mode</span>
+                            <span class="px-2 py-0.5 rounded bg-dark-800/80 border border-white/5 text-slate-300 text-[11px] font-mono">Accessible Palettes</span>
+                            <span class="px-2 py-0.5 rounded bg-dark-800/80 border border-white/5 text-slate-300 text-[11px] font-mono">Audio HUD</span>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="pt-4 border-t border-white/5 flex flex-col sm:flex-row items-center gap-2.5">
+                        <a 
+                            href="01_ai_worldwide/index.html" 
+                            class="w-full sm:flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-semibold text-sm shadow-lg shadow-purple-600/25 hover:shadow-purple-600/40 transition-all"
+                        >
+                            <span>Launch 3D Experience</span>
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </a>
+                        <button 
+                            onclick="openPreview('01_ai_worldwide/index.html', 'World State of AI (2026 Edition)')" 
+                            class="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-3 rounded-xl bg-dark-800 hover:bg-dark-750 border border-white/10 hover:border-purple-400/40 text-slate-200 hover:text-white text-sm font-medium transition-all"
+                            title="Quick Live In-Hub Preview"
+                        >
+                            <svg class="w-4 h-4 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                            <span>Live Preview</span>
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+
+            <!-- PROJECT CARD 2: Global Filament 3D Printer Statistics (2024–2034) -->
+            <article 
+                class="project-card spotlight-card glass-panel rounded-2xl overflow-hidden flex flex-col group border border-white/10 hover:border-cyan-500/40 relative"
+                data-category="3d"
+                data-title="Global Filament 3D Printer Statistics & Dynamics 2024–2034"
+                data-tags="3d printers hardware market filament dynamics corexy ams statistics forecasting chart.js materials"
+            >
+                <!-- Card Header Visual / Banner -->
+                <div class="relative h-56 sm:h-64 overflow-hidden bg-dark-900">
+                    <img 
+                        src="00_3d_printers_test/assets/printer_corexy.jpg" 
+                        alt="3D Printers Statistics Preview" 
+                        class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 filter brightness-90 group-hover:brightness-100"
+                    >
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark-950 via-dark-950/40 to-transparent"></div>
+                    
+                    <!-- Floating Badges Top -->
+                    <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between pointer-events-none">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-cyan-950/80 backdrop-blur-md border border-cyan-500/40 text-cyan-300 text-[11px] font-mono font-bold tracking-wide">
+                            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                            SUITE 00 // MARKET INTELLIGENCE
+                        </span>
+                        <span class="px-2.5 py-1 rounded-md bg-dark-950/80 backdrop-blur-md border border-white/10 text-slate-300 text-[11px] font-mono">
+                            HORIZON // 2024–2034
+                        </span>
+                    </div>
+
+                    <!-- Floating Title in visual -->
+                    <div class="absolute bottom-4 left-5 right-5">
+                        <div class="flex items-center gap-2 text-cyan-400 text-xs font-mono mb-1">
+                            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                            <span>Hardware Evolution & Materials Economy</span>
+                        </div>
+                        <h2 class="text-xl sm:text-2xl font-display font-bold text-white tracking-tight group-hover:text-cyan-300 transition-colors">
+                            Filament 3D Printer Statistics <span class="text-cyan-400 font-mono text-sm">(2024–2034)</span>
+                        </h2>
+                    </div>
+                </div>
+
+                <!-- Card Body -->
+                <div class="p-6 flex-1 flex flex-col justify-between space-y-6">
+                    <div>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                            Deep empirical market intelligence dashboard covering the CoreXY speed revolution, multi-material AMS ecosystem surge, 10-year revenue forecasts ($12.8B), and material consumption patterns.
+                        </p>
+
+                        <!-- Key Metrics Ribbon -->
+                        <div class="grid grid-cols-3 gap-2 bg-dark-900/60 p-3 rounded-xl border border-white/5 font-mono text-xs mb-4">
+                            <div>
+                                <span class="text-slate-400 block text-[10px]">2034 Market Size</span>
+                                <strong class="text-cyan-300 font-grotesk text-sm">$12.8 Billion</strong>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 block text-[10px]">Print Speed Jump</span>
+                                <strong class="text-amber-300 font-grotesk text-sm">600+ mm/s</strong>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 block text-[10px]">Multi-Color AMS</span>
+                                <strong class="text-emerald-300 font-grotesk text-sm">68% Share</strong>
+                            </div>
+                        </div>
+
+                        <!-- Feature Chips -->
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="px-2 py-0.5 rounded bg-cyan-950/40 border border-cyan-500/20 text-cyan-300 text-[11px] font-mono">Chart.js Analytics</span>
+                            <span class="px-2 py-0.5 rounded bg-dark-800/80 border border-white/5 text-slate-300 text-[11px] font-mono">CoreXY vs Bedslinger</span>
+                            <span class="px-2 py-0.5 rounded bg-dark-800/80 border border-white/5 text-slate-300 text-[11px] font-mono">PLA / PETG / TPU / CF</span>
+                            <span class="px-2 py-0.5 rounded bg-dark-800/80 border border-white/5 text-slate-300 text-[11px] font-mono">10-Year Projections</span>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="pt-4 border-t border-white/5 flex flex-col sm:flex-row items-center gap-2.5">
+                        <a 
+                            href="00_3d_printers_test/index.html" 
+                            class="w-full sm:flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-semibold text-sm shadow-lg shadow-cyan-600/25 hover:shadow-cyan-600/40 transition-all"
+                        >
+                            <span>Launch Analytics Hub</span>
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </a>
+                        <button 
+                            onclick="openPreview('00_3d_printers_test/index.html', 'Global Filament 3D Printer Statistics & Dynamics 2024–2034')" 
+                            class="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-3 rounded-xl bg-dark-800 hover:bg-dark-750 border border-white/10 hover:border-cyan-400/40 text-slate-200 hover:text-white text-sm font-medium transition-all"
+                            title="Quick Live In-Hub Preview"
+                        >
+                            <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                            <span>Live Preview</span>
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+        </section>
+
+        <!-- Dedicated Companion Report Showcase / Quick Link Bar -->
+        <section class="glass-panel rounded-2xl p-6 sm:p-8 border border-white/10 relative overflow-hidden mb-16">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                <div class="space-y-2">
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 rounded bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono font-semibold uppercase">Standalone Document View</span>
+                        <span class="text-xs text-slate-400 font-mono">00_3d_printers_test/global_filament_3d_printer_statistics.html</span>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-display font-bold text-white">Dedicated 3D Printing Statistical Dossier</h3>
+                    <p class="text-slate-400 text-sm max-w-2xl">
+                        Clean standalone document view formatted for deep-read research, offline archival, and executive briefings.
+                    </p>
+                </div>
+                <div class="flex items-center gap-3 w-full md:w-auto">
+                    <a 
+                        href="00_3d_printers_test/global_filament_3d_printer_statistics.html" 
+                        target="_blank"
+                        class="w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-dark-800 hover:bg-dark-700 border border-white/10 hover:border-emerald-500/40 text-emerald-300 hover:text-emerald-200 text-sm font-medium transition-all"
+                    >
+                        <span>Open Document</span>
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Interactive Live Preview Modal -->
+    <dialog id="preview-modal" class="rounded-2xl p-0 bg-dark-950 border border-cyan-500/40 text-white shadow-2xl shadow-cyan-950/80 w-[95vw] max-w-6xl h-[88vh] overflow-hidden">
+        <div class="flex flex-col h-full bg-dark-950">
+            <!-- Modal Header / Viewport Toolbar -->
+            <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-dark-900/90 backdrop-blur-md">
+                <div class="flex items-center gap-3">
+                    <span class="w-3 h-3 rounded-full bg-cyan-400 animate-ping"></span>
+                    <h3 id="modal-title" class="text-sm font-display font-bold text-white truncate max-w-xs sm:max-w-md">Project Live Preview</h3>
+                </div>
+                
+                <!-- Viewport size switchers & actions -->
+                <div class="flex items-center gap-2">
+                    <div class="hidden sm:flex items-center bg-dark-800 rounded-lg p-1 border border-white/5 text-xs font-mono">
+                        <button onclick="setViewportWidth(this, '100%')" class="vp-btn active px-2.5 py-1 rounded bg-dark-700 text-cyan-300" title="Desktop Full Width">Full</button>
+                        <button onclick="setViewportWidth(this, '1024px')" class="vp-btn px-2.5 py-1 rounded text-slate-400 hover:text-white" title="Tablet / Laptop">1024px</button>
+                        <button onclick="setViewportWidth(this, '430px')" class="vp-btn px-2.5 py-1 rounded text-slate-400 hover:text-white" title="Mobile View">Mobile</button>
+                    </div>
+
+                    <a id="modal-direct-link" href="#" target="_blank" class="p-2 rounded-lg bg-dark-800 hover:bg-dark-700 text-slate-300 hover:text-cyan-300 transition-colors" title="Open in New Tab">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </a>
+
+                    <button onclick="reloadPreview()" class="p-2 rounded-lg bg-dark-800 hover:bg-dark-700 text-slate-300 hover:text-white transition-colors" title="Reload Frame">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                    </button>
+
+                    <button onclick="closePreview()" class="p-2 rounded-lg bg-dark-800 hover:bg-red-950/80 text-slate-300 hover:text-red-400 border border-white/5 hover:border-red-500/40 transition-colors" title="Close Modal (Esc)">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Iframe Container -->
+            <div class="flex-1 bg-dark-950 flex items-center justify-center p-0 overflow-hidden relative">
+                <div id="iframe-loader" class="absolute inset-0 flex items-center justify-center bg-dark-950 z-10 transition-opacity duration-300">
+                    <div class="flex flex-col items-center gap-3">
+                        <div class="w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
+                        <span class="text-xs font-mono text-cyan-300">INITIALIZING VISUALIZATION ENGINE...</span>
+                    </div>
+                </div>
+                <div id="iframe-wrapper" class="w-full h-full flex justify-center transition-all duration-300">
+                    <iframe id="preview-frame" src="" class="w-full h-full border-0 bg-dark-950"></iframe>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Keyboard Shortcuts Modal -->
+    <dialog id="shortcuts-modal" class="rounded-2xl p-0 bg-dark-950 border border-white/10 text-white shadow-2xl max-w-md w-full overflow-hidden">
+        <div class="p-6 bg-dark-900">
+            <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
+                <h3 class="font-display font-bold text-base flex items-center gap-2 text-cyan-300">
+                    <kbd class="px-1.5 py-0.5 rounded bg-dark-800 border border-white/10 text-xs font-mono text-cyan-400">?</kbd>
+                    <span>Keyboard Navigation</span>
+                </h3>
+                <button onclick="document.getElementById('shortcuts-modal').close()" class="text-slate-400 hover:text-white text-sm font-mono">&times;</button>
+            </div>
+            <div class="space-y-3 text-xs font-mono">
+                <div class="flex justify-between items-center py-1 border-b border-white/5">
+                    <span class="text-slate-300">Launch Suite 01 (AI World State)</span>
+                    <kbd class="px-2 py-0.5 rounded bg-dark-800 border border-white/10 text-cyan-400">1</kbd>
+                </div>
+                <div class="flex justify-between items-center py-1 border-b border-white/5">
+                    <span class="text-slate-300">Launch Suite 00 (3D Printers)</span>
+                    <kbd class="px-2 py-0.5 rounded bg-dark-800 border border-white/10 text-cyan-400">2</kbd>
+                </div>
+                <div class="flex justify-between items-center py-1 border-b border-white/5">
+                    <span class="text-slate-300">Focus Search Input</span>
+                    <kbd class="px-2 py-0.5 rounded bg-dark-800 border border-white/10 text-cyan-400">/</kbd>
+                </div>
+                <div class="flex justify-between items-center py-1 border-b border-white/5">
+                    <span class="text-slate-300">Close Active Modal / Preview</span>
+                    <kbd class="px-2 py-0.5 rounded bg-dark-800 border border-white/10 text-cyan-400">ESC</kbd>
+                </div>
+                <div class="flex justify-between items-center py-1">
+                    <span class="text-slate-300">Toggle UI SFX Sound</span>
+                    <kbd class="px-2 py-0.5 rounded bg-dark-800 border border-white/10 text-cyan-400">M</kbd>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Master Footer -->
+    <footer class="relative z-20 border-t border-white/5 bg-dark-950/80 backdrop-blur-md px-4 sm:px-8 py-8 text-xs text-slate-400 font-mono">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+            <div class="flex items-center gap-2">
+                <span class="text-cyan-400 font-bold">CODESOME3D</span>
+                <span>//</span>
+                <span>Interactive Scientific & Market Visualization Framework</span>
+            </div>
+            <div class="flex flex-wrap items-center justify-center gap-4 text-slate-500">
+                <span>Three.js WebGL</span>
+                <span>•</span>
+                <span>Chart.js Engine</span>
+                <span>•</span>
+                <span>WCAG Colorblind Safe</span>
+                <span>•</span>
+                <span>2024–2034 Edition</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Scripts -->
+    <script>
+        // --- Web Audio Synthesized SFX ---
+        let audioCtx = null;
+        let soundEnabled = false;
+
+        function playBeep(freq = 600, type = 'sine', duration = 0.08, gainVal = 0.04) {
+            if (!soundEnabled) return;
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(gainVal, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {
+                console.warn('Audio play error:', e);
+            }
+        }
+
+        const soundToggleBtn = document.getElementById('sound-toggle-btn');
+        const soundIconOn = document.getElementById('sound-icon-on');
+        const soundIconOff = document.getElementById('sound-icon-off');
+        const soundLabel = document.getElementById('sound-label');
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            if (soundEnabled) {
+                soundIconOn.classList.remove('hidden');
+                soundIconOff.classList.add('hidden');
+                soundLabel.textContent = 'SFX ON';
+                soundToggleBtn.classList.add('border-cyan-500/60', 'text-cyan-300');
+                playBeep(880, 'sine', 0.1, 0.08);
+            } else {
+                soundIconOn.classList.add('hidden');
+                soundIconOff.classList.remove('hidden');
+                soundLabel.textContent = 'SFX OFF';
+                soundToggleBtn.classList.remove('border-cyan-500/60', 'text-cyan-300');
+            }
+        }
+
+        soundToggleBtn.addEventListener('click', toggleSound);
+
+        // --- Spotlight Card Mouse Follower ---
+        const cards = document.querySelectorAll('.spotlight-card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+
+            card.addEventListener('mouseenter', () => playBeep(520, 'sine', 0.04, 0.02));
+        });
+
+        // --- Interactive Particle Canvas ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = (Math.random() - 0.5) * 0.3;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.color = Math.random() > 0.5 ? 'rgba(56, 189, 248,' : 'rgba(168, 85, 247,';
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+            }
+            draw() {
+                ctx.fillStyle = `${this.color} ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 40; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // --- Search and Filtering Logic ---
+        const searchInput = document.getElementById('search-input');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        let currentFilter = 'all';
+
+        function applyFilterAndSearch() {
+            const query = searchInput.value.toLowerCase().trim();
+
+            projectCards.forEach(card => {
+                const category = card.dataset.category;
+                const title = card.dataset.title.toLowerCase();
+                const tags = card.dataset.tags.toLowerCase();
+
+                const matchesFilter = (currentFilter === 'all' || category === currentFilter);
+                const matchesSearch = !query || title.includes(query) || tags.includes(query);
+
+                if (matchesFilter && matchesSearch) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        searchInput.addEventListener('input', applyFilterAndSearch);
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('active', 'bg-cyan-500', 'text-dark-950', 'font-semibold', 'shadow-lg');
+                    b.classList.add('bg-dark-900/80', 'text-slate-300');
+                });
+                btn.classList.add('active', 'bg-cyan-500', 'text-dark-950', 'font-semibold', 'shadow-lg');
+                btn.classList.remove('bg-dark-900/80', 'text-slate-300');
+
+                currentFilter = btn.dataset.filter;
+                playBeep(700, 'sine', 0.05, 0.03);
+                applyFilterAndSearch();
+            });
+        });
+
+        // --- In-Hub Live Preview Modal ---
+        const previewModal = document.getElementById('preview-modal');
+        const previewFrame = document.getElementById('preview-frame');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDirectLink = document.getElementById('modal-direct-link');
+        const iframeLoader = document.getElementById('iframe-loader');
+        const iframeWrapper = document.getElementById('iframe-wrapper');
+
+        function openPreview(url, title) {
+            modalTitle.textContent = title;
+            modalDirectLink.href = url;
+            iframeLoader.style.opacity = '1';
+            iframeLoader.style.pointerEvents = 'auto';
+
+            previewFrame.src = url;
+            previewFrame.onload = () => {
+                setTimeout(() => {
+                    iframeLoader.style.opacity = '0';
+                    iframeLoader.style.pointerEvents = 'none';
+                }, 300);
+            };
+
+            previewModal.showModal();
+            playBeep(660, 'triangle', 0.1, 0.05);
+        }
+
+        function closePreview() {
+            previewModal.close();
+            previewFrame.src = '';
+            playBeep(440, 'sine', 0.08, 0.04);
+        }
+
+        function reloadPreview() {
+            const currentSrc = previewFrame.src;
+            iframeLoader.style.opacity = '1';
+            iframeLoader.style.pointerEvents = 'auto';
+            previewFrame.src = currentSrc;
+        }
+
+        function setViewportWidth(btn, width) {
+            iframeWrapper.style.maxWidth = width;
+            document.querySelectorAll('.vp-btn').forEach(b => {
+                b.classList.remove('active', 'bg-dark-700', 'text-cyan-300');
+                b.classList.add('text-slate-400');
+            });
+            if (btn) {
+                btn.classList.add('active', 'bg-dark-700', 'text-cyan-300');
+                btn.classList.remove('text-slate-400');
+            }
+            playBeep(800, 'sine', 0.04, 0.02);
+        }
+
+        // Close on clicking backdrop
+        previewModal.addEventListener('click', (e) => {
+            const rect = previewModal.getBoundingClientRect();
+            if (
+                e.clientX < rect.left ||
+                e.clientX > rect.right ||
+                e.clientY < rect.top ||
+                e.clientY > rect.bottom
+            ) {
+                closePreview();
+            }
+        });
+
+        // Shortcuts modal trigger
+        const shortcutsBtn = document.getElementById('shortcuts-btn');
+        const shortcutsModal = document.getElementById('shortcuts-modal');
+        shortcutsBtn.addEventListener('click', () => {
+            shortcutsModal.showModal();
+            playBeep(600, 'sine', 0.06, 0.03);
+        });
+
+        shortcutsModal.addEventListener('click', (e) => {
+            const rect = shortcutsModal.getBoundingClientRect();
+            if (
+                e.clientX < rect.left ||
+                e.clientX > rect.right ||
+                e.clientY < rect.top ||
+                e.clientY > rect.bottom
+            ) {
+                shortcutsModal.close();
+            }
+        });
+
+        // --- Keyboard Shortcuts Listeners ---
+        window.addEventListener('keydown', (e) => {
+            // Ignore if active in input
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                if (e.key === 'Escape') {
+                    searchInput.blur();
+                }
+                return;
+            }
+
+            if (e.key === '/') {
+                e.preventDefault();
+                searchInput.focus();
+                playBeep(800, 'sine', 0.05, 0.03);
+            } else if (e.key === '1') {
+                window.location.href = '01_ai_worldwide/index.html';
+            } else if (e.key === '2') {
+                window.location.href = '00_3d_printers_test/index.html';
+            } else if (e.key.toLowerCase() === 'm') {
+                toggleSound();
+            } else if (e.key === 'Escape') {
+                if (previewModal.open) closePreview();
+                if (shortcutsModal.open) shortcutsModal.close();
+            }
+        });
+    </script>
 </body>
 </html>
