@@ -29,6 +29,12 @@
     <!-- Top HUD Header -->
     <header class="hud-header">
       <div class="hud-brand">
+        <!-- Return to Main Hub Button -->
+        <a href="../index.html" target="_top" class="btn-hud btn-return-hub" style="text-decoration: none; color: var(--primary); font-weight: 700; border-color: rgba(0, 240, 255, 0.4); padding: 5px 12px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 0 14px rgba(0, 240, 255, 0.18);" title="Return to Main Index Hub (H / Esc)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          <span style="font-family: var(--font-display); font-size: 11.5px; letter-spacing: 0.5px;">INDEX HUB</span>
+        </a>
+
         <div class="hud-badge">LIVE // 2026-Q3</div>
         <div class="hud-title-group">
           <h1>WORLD STATE OF AI</h1>
@@ -91,41 +97,56 @@
                 <div class="img-overlay-badge">NVIDIA GB200 & CUSTOM ASIC FABRIC</div>
               </div>
 
-              <div class="hero-number-wrapper" style="margin-top: 8px;">
+              <div class="hero-number-wrapper" style="margin-top: 10px;">
                 <span data-counter="1.42" data-decimals="2" data-prefix="$">0</span>
                 <span class="hero-unit">T</span>
               </div>
               <div class="hero-label">Cumulative AI CapEx & Datacenter Spend</div>
               <div class="hero-growth-badge">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
                 +48% YoY Acceleration
+              </div>
+              <div class="hero-breakdown">
+                <strong>Allocation:</strong> 62% Hyperscale Superclusters • 24% Custom Silicon &amp; Optical Fabrics • 14% Dedicated Nuclear/Clean PPAs
               </div>
             </div>
 
             <!-- 2x2 Statistical Grid -->
             <div class="stats-2x2-grid">
               <div class="glassmorphism-subcard stat-metric-card anim-stagger">
-                <div class="stat-card-number">10²⁷ <span style="font-size: 15px; font-weight: 500;">FLOPs</span></div>
-                <div class="stat-card-label">Frontier Training Scale</div>
-                <div class="stat-card-desc">Current compute ceiling for next-gen reasoning models (100× expansion vs 2023).</div>
+                <div>
+                  <div class="stat-card-number">10²⁷ <span style="font-size: 18px; font-weight: 500;">FLOPs</span></div>
+                  <div class="stat-card-label">Frontier Training Scale</div>
+                  <div class="stat-card-desc">Current compute ceiling for next-gen reasoning models (100× expansion vs 2023).</div>
+                </div>
+                <div class="stat-card-meta">128k NVLink GPUs • FP4 Precision • 3.8× Training Gain</div>
               </div>
 
               <div class="glassmorphism-subcard stat-metric-card anim-stagger">
-                <div class="stat-card-number secondary" data-counter="3.2" data-decimals="1" data-suffix="B">0</div>
-                <div class="stat-card-label">Daily Autonomous Agent Calls</div>
-                <div class="stat-card-desc">Multi-step agent executions across code synthesis, deep research, and enterprise tooling.</div>
+                <div>
+                  <div class="stat-card-number secondary" data-counter="3.2" data-decimals="1" data-suffix="B">0</div>
+                  <div class="stat-card-label">Daily Autonomous Agent Calls</div>
+                  <div class="stat-card-desc">Multi-step agent executions across code synthesis, deep research, and enterprise tooling.</div>
+                </div>
+                <div class="stat-card-meta">38% Code • 31% Research Synthesis • 31% Tool APIs</div>
               </div>
 
               <div class="glassmorphism-subcard stat-metric-card anim-stagger">
-                <div class="stat-card-number success" data-counter="84.6" data-decimals="1" data-suffix="%">0</div>
-                <div class="stat-card-label">Enterprise Code Assisted</div>
-                <div class="stat-card-desc">Production Pull Requests authored or co-piloted by agentic developer environments.</div>
+                <div>
+                  <div class="stat-card-number success" data-counter="84.6" data-decimals="1" data-suffix="%">0</div>
+                  <div class="stat-card-label">Enterprise Code Assisted</div>
+                  <div class="stat-card-desc">Production Pull Requests authored or co-piloted by agentic developer environments.</div>
+                </div>
+                <div class="stat-card-meta">PR Cycle: 3.2d → 4.5h • 99.4% Canary Pass Rate</div>
               </div>
 
               <div class="glassmorphism-subcard stat-metric-card anim-stagger">
-                <div class="stat-card-number warning" data-counter="94.2" data-decimals="1" data-prefix="-" data-suffix="%">0</div>
-                <div class="stat-card-label">Inference Cost Deflation</div>
-                <div class="stat-card-desc">Token price drop since 2024 via distilled speculative decoding and FP4 silicon efficiency.</div>
+                <div>
+                  <div class="stat-card-number warning" data-counter="94.2" data-decimals="1" data-prefix="-" data-suffix="%">0</div>
+                  <div class="stat-card-label">Inference Cost Deflation</div>
+                  <div class="stat-card-desc">Token price drop since 2024 via distilled speculative decoding and FP4 silicon efficiency.</div>
+                </div>
+                <div class="stat-card-meta">$0.18 / 1M Blended Tokens • Speculative Decoding</div>
               </div>
             </div>
           </div>
@@ -143,19 +164,29 @@
           <div class="slide-sidebar-layout">
             <!-- Regional Capacity List with Animated Bars -->
             <div class="glassmorphism-subcard anim-stagger" style="display: flex; flex-direction: column; justify-content: space-between;">
-              <div style="font-family: var(--font-display); font-size: 14px; font-weight: 700; color: #FFFFFF; margin-bottom: 6px;">Regional Compute Share (GW Capacity)</div>
-              <div id="slide2-capacity-bars"></div>
-              <div style="font-size: 11px; color: var(--primary); margin-top: 6px; font-weight: 600;">✨ Click any glowing beacon pin on the right 3D globe to inspect specs.</div>
+              <div>
+                <div style="font-family: var(--font-display); font-size: 16px; font-weight: 700; color: #FFFFFF; margin-bottom: 6px;">Regional Compute Share (GW Capacity)</div>
+                <div id="slide2-capacity-bars"></div>
+              </div>
+              <div class="stat-card-meta" style="margin-top: 8px;">
+                🌐 High-Voltage DC Interties • Metro Optical Rings &lt;1.2ms Latency • Sovereign AI Enclaves
+              </div>
+              <div style="font-size: 11.5px; color: var(--primary); margin-top: 6px; font-weight: 600;">✨ Click any glowing beacon pin on the right 3D globe to inspect specs.</div>
             </div>
 
             <!-- Clean Energy Mix Breakdown with SMR Nuclear Campus Image -->
             <div class="glassmorphism-subcard anim-stagger" style="display: flex; flex-direction: column; justify-content: space-between;">
-              <div class="hero-image-wrapper" style="height: 120px; margin-bottom: 8px;">
-                <img src="assets/images/slide2_nuclear.jpg" alt="Dedicated SMR Nuclear AI Campus" class="slide-hero-img">
-                <div class="img-overlay-badge">14× SMR NUCLEAR GIGAWATT CAMPUSES</div>
+              <div>
+                <div class="hero-image-wrapper" style="height: 120px; margin-bottom: 8px;">
+                  <img src="assets/images/slide2_nuclear.jpg" alt="Dedicated SMR Nuclear AI Campus" class="slide-hero-img">
+                  <div class="img-overlay-badge">14× SMR NUCLEAR GIGAWATT CAMPUSES</div>
+                </div>
+                <div style="font-family: var(--font-display); font-size: 16px; font-weight: 700; color: #FFFFFF; margin-bottom: 4px;">2026 AI Campus Power Source Mix</div>
+                <div id="slide2-energy-grid"></div>
               </div>
-              <div style="font-family: var(--font-display); font-size: 13.5px; font-weight: 700; color: #FFFFFF; margin-bottom: 4px;">2026 AI Campus Power Source Mix</div>
-              <div id="slide2-energy-grid"></div>
+              <div class="stat-card-meta" style="margin-top: 8px;">
+                ⚡ 15-Yr SMR PPAs Signed • Liquid Immersion PUE &lt;1.08 • 24/7 Geothermal Baseload
+              </div>
             </div>
           </div>
         </section>
@@ -180,6 +211,7 @@
                     <span class="paradigm-tag">Breakthrough</span>
                   </div>
                   <div class="paradigm-desc">Dynamic Monte-Carlo tree search allocating compute budgets adaptively from 100ms to 5 minutes based on task hardness.</div>
+                  <div class="paradigm-metric-line">✦ PRMs score 1,000+ MCTS rollout branches per step</div>
                 </div>
               </div>
 
@@ -191,6 +223,7 @@
                     <span class="paradigm-tag">Efficiency</span>
                   </div>
                   <div class="paradigm-desc">Dynamic routing across 16 specialized sub-networks (38B active params) achieving >1T dense cognitive parity.</div>
+                  <div class="paradigm-metric-line">✦ Sub-4ms expert gating across specialized sub-networks</div>
                 </div>
               </div>
 
@@ -202,6 +235,7 @@
                     <span class="paradigm-tag">Data Ceiling</span>
                   </div>
                   <div class="paradigm-desc">Hermetic execution sandboxes generating verifiable mathematical proofs and code tests for continuous self-improvement.</div>
+                  <div class="paradigm-metric-line">✦ Lean 4 &amp; Isabelle formal theorem verification loops</div>
                 </div>
               </div>
 
@@ -213,6 +247,7 @@
                     <span class="paradigm-tag">Physical AI</span>
                   </div>
                   <div class="paradigm-desc">Joint spatial 3D tokenization and physical dynamics enabling zero-shot robotic manipulation and spatial intelligence.</div>
+                  <div class="paradigm-metric-line">✦ 3D Gaussian splatting tokenization + physical dynamics</div>
                 </div>
               </div>
             </div>
@@ -237,6 +272,10 @@
                 <div class="eff-item">
                   <span style="color: var(--text-muted);">Active Parameter Gating:</span>
                   <strong style="color: var(--warning);">38B Active / 680B Total Parameters</strong>
+                </div>
+                <div class="eff-item">
+                  <span style="color: var(--text-muted);">Energy per Reasoning Step:</span>
+                  <strong style="color: var(--primary);">-68% Joules / Verified Token</strong>
                 </div>
               </div>
             </div>
@@ -309,7 +348,7 @@
             <div class="glassmorphism-subcard sector-card sector-card-biotech anim-stagger">
               <div class="sector-card-content">
                 <div class="sector-header">
-                  <div class="sector-title">🧬 Biomedical & De Novo Proteins</div>
+                  <div class="sector-title">🧬 Biomedical &amp; De Novo Proteins</div>
                   <div class="sector-gain-badge">+340% Clinical Speed</div>
                 </div>
                 <div class="sector-stat-row">
@@ -317,6 +356,7 @@
                   <div class="sector-stat-label">Target to Validated Candidate</div>
                 </div>
                 <p class="sector-desc">AlphaFold 3 and co-folding diffusion architectures designed 48 active Phase-1 drug candidates currently in clinical trials.</p>
+                <div class="sector-subpoint">✦ Target binding affinity accuracy reached 94.6%; de novo synthetic peptide yield up 5.8×.</div>
               </div>
             </div>
 
@@ -332,6 +372,7 @@
                   <div class="sector-stat-label">End-to-End Bug Resolutions</div>
                 </div>
                 <p class="sector-desc">Multi-agent developer swarms ingest codebases, write unit tests, verify regression suites, and auto-deploy canary fixes.</p>
+                <div class="sector-subpoint">✦ Framework migrations (React 19 / Python 3.14) completed in hours with 99.8% test coverage.</div>
               </div>
             </div>
 
@@ -347,6 +388,7 @@
                   <div class="sector-stat-label">PPA Floorplan Efficiency Gain</div>
                 </div>
                 <p class="sector-desc">Reinforcement learning agents route 2nm chip interconnects and optimize macro placement beyond human layout team baselines.</p>
+                <div class="sector-subpoint">✦ Backside power delivery network voltage drops cut by 22%; clock tree runtime reduced by 60%.</div>
               </div>
             </div>
 
@@ -362,6 +404,7 @@
                   <div class="sector-stat-label">Solid-State Electrolyte Gain</div>
                 </div>
                 <p class="sector-desc">Autonomous closed-loop robotic synthesis labs identified stable non-lithium solid electrolytes for next-gen energy storage.</p>
+                <div class="sector-subpoint">✦ Room-temperature ionic conductivity reached 12.4 mS/cm; &lt;3% loss after 2,500 fast cycles.</div>
               </div>
             </div>
           </div>
@@ -382,54 +425,58 @@
               <div class="glassmorphism-subcard timeline-node">
                 <span class="timeline-year">2024</span>
                 <div class="timeline-title">Multimodal Foundation & 1M Context</div>
-                <div class="timeline-desc">Omni-modal text/vision/voice unification, initial test-time search prototypes.</div>
+                <div class="timeline-desc">Omni-modal text/vision/voice unification, initial test-time search prototypes, FlashAttention-3.</div>
               </div>
 
               <div class="glassmorphism-subcard timeline-node">
                 <span class="timeline-year">2025</span>
                 <div class="timeline-title">Reasoning Models & Open Distillation</div>
-                <div class="timeline-desc">o1/DeepSeek-R1 release, open-weights parity, $100B hyperscale datacenter plans.</div>
+                <div class="timeline-desc">o1/DeepSeek-R1 release, open-weights parity, $100B hyperscale datacenter campus commitments.</div>
               </div>
 
               <div class="glassmorphism-subcard timeline-node highlight">
                 <span class="timeline-year">2026 (PRESENT)</span>
                 <div class="timeline-title">Agentic Fleets & Gigawatt Nuclear Campuses</div>
-                <div class="timeline-desc">85% assisted coding, self-verifying PRMs, 10²⁶ FLOPs international safety treaty.</div>
+                <div class="timeline-desc">85% assisted coding, self-verifying PRMs, 10²⁶ FLOPs international safety treaty, FP4 silicon standard.</div>
               </div>
 
               <div class="glassmorphism-subcard timeline-node">
                 <span class="timeline-year">2027–2028</span>
                 <div class="timeline-title">Embodied Robotics & Automated Chemistry</div>
-                <div class="timeline-desc">Humanoid factory deployment, closed-loop autonomous scientific wet labs.</div>
+                <div class="timeline-desc">Humanoid factory deployment, closed-loop autonomous wet labs, 10M token zero-loss context recall.</div>
               </div>
 
               <div class="glassmorphism-subcard timeline-node">
                 <span class="timeline-year">2029–2030</span>
                 <div class="timeline-title">General Scientific Cognitive Parity</div>
-                <div class="timeline-desc">Independent mathematical theorem proving and theoretical physics discoveries.</div>
+                <div class="timeline-desc">Autonomous mathematical theorem proving, theoretical physics breakthroughs, unified agentic OS.</div>
               </div>
             </div>
 
-            <!-- 4 Governance Pillars -->
+            <!-- 4 Governance Pillars (With Thematic Background Images) -->
             <div class="governance-grid anim-stagger">
-              <div class="glassmorphism-subcard gov-card">
+              <div class="glassmorphism-subcard gov-card gov-card-telemetry anim-stagger">
                 <div class="gov-title">📡 Compute Telemetry</div>
-                <div class="gov-detail">Hardware-level audit verification on all multi-cluster runs exceeding 10²⁶ FLOPs.</div>
+                <div class="gov-detail">Hardware-level cryptographically signed audit telemetry on all multi-cluster runs exceeding 10²⁶ FLOPs.</div>
+                <div class="gov-protocol-tag">ISO/IEC 42001-AI STANDARD</div>
               </div>
 
-              <div class="glassmorphism-subcard gov-card">
+              <div class="glassmorphism-subcard gov-card gov-card-biosecurity anim-stagger">
                 <div class="gov-title">🧬 Biosecurity Sandboxing</div>
-                <div class="gov-detail">Cryptographic DNA synthesis screening and dual-use biological hazard prevention.</div>
+                <div class="gov-detail">Cryptographic DNA synthesis screening, air-gapped wet lab APIs, and automated dual-use pathogen blocking.</div>
+                <div class="gov-protocol-tag">G7 BIOSAFETY ACCORD</div>
               </div>
 
-              <div class="glassmorphism-subcard gov-card">
+              <div class="glassmorphism-subcard gov-card gov-card-provenance anim-stagger">
                 <div class="gov-title">🔒 Media Provenance (C2PA)</div>
-                <div class="gov-detail">Universal cryptographic watermarking standard on 98% of frontier synthetic media.</div>
+                <div class="gov-detail">Universal cryptographic watermarking and manifest validation embedded directly into hardware silicon pipelines.</div>
+                <div class="gov-protocol-tag">C2PA v2.2 MANDATE</div>
               </div>
 
-              <div class="glassmorphism-subcard gov-card">
+              <div class="glassmorphism-subcard gov-card gov-card-zerofossil anim-stagger">
                 <div class="gov-title">⚡ Zero-Fossil Mandate</div>
-                <div class="gov-detail">Binding hyperscale agreements requiring 100% dedicated clean power additions by 2028.</div>
+                <div class="gov-detail">Binding hyperscale agreements requiring 100% dedicated clean baseload power additions for any cluster &gt;100MW.</div>
+                <div class="gov-protocol-tag">CLEAN COMPUTE 2028</div>
               </div>
             </div>
           </div>
@@ -545,6 +592,7 @@
       <tr><td><span class="kbd-key">1</span> - <span class="kbd-key">6</span></td><td>Jump Directly to Slide (1 to 6)</td></tr>
       <tr><td><span class="kbd-key">P</span></td><td>Toggle Presenter Mode (Auto-Play)</td></tr>
       <tr><td><span class="kbd-key">F</span></td><td>Toggle Fullscreen Mode</td></tr>
+      <tr><td><span class="kbd-key">H</span> / <span class="kbd-key">Esc</span></td><td>Return to Main Hub</td></tr>
       <tr><td><span class="kbd-key">?</span></td><td>Toggle Shortcuts Cheatsheet</td></tr>
       <tr><td><span class="kbd-key">Drag / Wheel</span></td><td>Orbit 3D Globe / Zoom In-Out</td></tr>
     </table>

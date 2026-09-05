@@ -476,11 +476,20 @@ class PresentationApp {
           const modal = document.getElementById('shortcuts-modal');
           if (modal) modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
           break;
+        case 'h':
+        case 'H':
+          window.location.href = '../index.html';
+          break;
         case 'Escape':
           const m = document.getElementById('shortcuts-modal');
-          if (m) m.style.display = 'none';
           const d = document.getElementById('detail-drawer');
-          if (d) d.style.display = 'none';
+          if (m && m.style.display === 'block') {
+            m.style.display = 'none';
+          } else if (d && d.style.display === 'block') {
+            d.style.display = 'none';
+          } else {
+            window.location.href = '../index.html';
+          }
           break;
       }
     };

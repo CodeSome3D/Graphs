@@ -86,17 +86,17 @@ export const presentationData = {
       subtitle: "Gigawatt-scale AI campuses and the race for dedicated clean power",
       narrative: "Frontier model serving is bounded by grid capacity. Global AI datacenter power demand consumes 380+ TWh annually, driving direct co-location with nuclear plants, geothermal fields, and ultra-high-voltage DC lines.",
       regionalCapacity: [
-        { region: "North America (US East & West)", share: 48, capacityGW: 11.0, growth: "+42% YoY", silicon: "GB200 NVL72, Custom ASICs" },
-        { region: "East Asia (China & Taiwan)", share: 26, capacityGW: 5.9, growth: "+58% YoY", silicon: "Ascend 910C, B200 Systems" },
-        { region: "Europe (UK, Nordics, France)", share: 13, capacityGW: 3.0, growth: "+31% YoY", silicon: "Sovereign AI Clusters, Hydro-powered" },
-        { region: "Middle East (UAE & Saudi)", share: 8, capacityGW: 1.8, growth: "+95% YoY", silicon: "Solar-backed Hyperscale Campuses" },
-        { region: "Rest of World (India, JP, SG)", share: 5, capacityGW: 1.1, growth: "+64% YoY", silicon: "Regional Inference Edge Nodes" }
+        { region: "North America (US East & West)", share: 48, capacityGW: 11.0, growth: "+42% YoY", silicon: "GB200 NVL72 & Custom ASICs • 800G InfiniBand Fabric • PUE 1.09" },
+        { region: "East Asia (China & Taiwan)", share: 26, capacityGW: 5.9, growth: "+58% YoY", silicon: "Ascend 910C & B200 Superclusters • Dual-die packaging • Direct liquid cooling" },
+        { region: "Europe (UK, Nordics, France)", share: 13, capacityGW: 3.0, growth: "+31% YoY", silicon: "Sovereign AI Enclaves • Hydroelectric & nuclear grid interconnects" },
+        { region: "Middle East (UAE & Saudi)", share: 8, capacityGW: 1.8, growth: "+95% YoY", silicon: "Dedicated Gigawatt Solar Parks • Liquid immersion cooling architectures" },
+        { region: "Rest of World (India, JP, SG)", share: 5, capacityGW: 1.1, growth: "+64% YoY", silicon: "Regional low-latency edge clusters • High-throughput inference nodes" }
       ],
       energyBreakdown: [
-        { source: "Nuclear (Base Load & SMRs)", percentage: 38, color: "var(--primary)", note: "Direct on-site SMR co-location" },
-        { source: "Hydro & Geothermal", percentage: 27, color: "var(--secondary)", note: "Nordic & Pacific Northwest corridors" },
-        { source: "Dedicated Solar + BESS", percentage: 22, color: "var(--warning)", note: "Southwest US & Middle East arrays" },
-        { source: "Grid Mixed Interconnects", percentage: 13, color: "var(--text-muted)", note: "Utility-peaked natural gas backup" }
+        { source: "Nuclear (Base Load & SMRs)", percentage: 38, color: "var(--primary)", note: "Direct 15-yr on-site SMR power purchase agreements (PPAs) with utility co-location" },
+        { source: "Hydro & Geothermal", percentage: 27, color: "var(--secondary)", note: "24/7 continuous baseload across Nordic and Pacific Northwest fiber corridors" },
+        { source: "Dedicated Solar + BESS", percentage: 22, color: "var(--warning)", note: "Southwest US & Gulf Desert multi-gigawatt solar arrays with 8h battery storage" },
+        { source: "Grid Mixed Interconnects", percentage: 13, color: "var(--text-muted)", note: "Ultra-High-Voltage (UHV) DC peaking lines with natural gas spinning reserve" }
       ]
     },
     {
@@ -107,10 +107,10 @@ export const presentationData = {
       narrative: "Capability scaling transitioned from raw pre-training parameters to inference-time search—allocating compute dynamically via Process Reward Models (PRMs) to deliberate, verify, and self-correct.",
       neuralMoEMode: true,
       paradigms: [
-        { step: "01", name: "Test-Time Compute Scaling", tag: "Breakthrough", desc: "Dynamic Monte-Carlo tree search allocating compute budgets adaptively from 100ms to 5 minutes based on task hardness." },
-        { step: "02", name: "Sparse Mixture-of-Agents (MoA)", tag: "Efficiency", desc: "Dynamic routing across 16 specialized sub-networks (38B active params) achieving >1T dense cognitive parity." },
-        { step: "03", name: "Autonomous Synthetic Self-Play", tag: "Data Ceiling", desc: "Hermetic execution sandboxes generating verifiable mathematical proofs and code tests for continuous self-improvement." },
-        { step: "04", name: "Embodied Multimodal World Models", tag: "Physical AI", desc: "Joint spatial 3D tokenization and physical dynamics enabling zero-shot robotic manipulation and spatial intelligence." }
+        { step: "01", name: "Test-Time Compute Scaling", tag: "Breakthrough", desc: "Dynamic Monte-Carlo tree search allocating compute budgets adaptively from 100ms to 5 minutes per step. Process Reward Models score 1,000+ candidate rollouts." },
+        { step: "02", name: "Sparse Mixture-of-Agents (MoA)", tag: "Efficiency", desc: "Dynamic routing across 16 specialized sub-networks (38B active params) achieving >1T dense cognitive parity with sub-4ms expert switching." },
+        { step: "03", name: "Autonomous Synthetic Self-Play", tag: "Data Ceiling", desc: "Hermetic execution sandboxes generating verifiable mathematical proofs (Lean 4) and regression code tests for autonomous self-improvement." },
+        { step: "04", name: "Embodied Multimodal World Models", tag: "Physical AI", desc: "Joint spatial 3D Gaussian tokenization and continuous physical dynamics enabling zero-shot robotic manipulation in complex environments." }
       ]
     },
     {
@@ -147,28 +147,32 @@ export const presentationData = {
           gain: "+340% Clinical Speed",
           metricValue: "14 Days",
           metricLabel: "Target to Validated Candidate",
-          desc: "AlphaFold 3 and co-folding diffusion architectures designed 48 active Phase-1 drug candidates currently in clinical trials."
+          desc: "AlphaFold 3 and co-folding diffusion architectures designed 48 active Phase-1 drug candidates currently in human clinical trials.",
+          subpoint: "Target binding affinity prediction accuracy reached 94.6%; de novo synthetic peptide yield up 5.8×."
         },
         {
           name: "💻 Autonomous Software Swarms",
           gain: "6.2× Developer Output",
           metricValue: "72% Auto-Fix",
           metricLabel: "End-to-End Bug Resolutions",
-          desc: "Multi-agent developer swarms ingest codebases, write unit tests, verify regression suites, and auto-deploy canary fixes."
+          desc: "Multi-agent developer swarms ingest codebases, write unit tests, verify regression suites, and auto-deploy canary fixes.",
+          subpoint: "Full-stack framework migrations (e.g. React 19 / Python 3.14) completed in hours with 99.8% test coverage."
         },
         {
           name: "⚡ 2nm Silicon Tape-Out Floorplan",
           gain: "45% Tape-Out Speedup",
           metricValue: "18.4%",
           metricLabel: "PPA Floorplan Efficiency Gain",
-          desc: "Reinforcement learning agents route 2nm chip interconnects and optimize macro placement beyond human layout team baselines."
+          desc: "Reinforcement learning agents route 2nm chip interconnects and optimize macro placement beyond human layout team baselines.",
+          subpoint: "Backside power delivery network (BSPDN) voltage drops cut by 22%; clock tree synthesis runtime reduced by 60%."
         },
         {
           name: "🔋 Solid-State Battery Crystals",
           gain: "12,000+ Crystals",
           metricValue: "3.5× Density",
           metricLabel: "Solid-State Electrolyte Gain",
-          desc: "Autonomous closed-loop robotic synthesis labs identified stable non-lithium solid electrolytes for next-gen energy storage."
+          desc: "Autonomous closed-loop robotic synthesis labs identified stable non-lithium solid electrolytes for next-gen energy storage.",
+          subpoint: "Room-temperature ionic conductivity surpassed 12.4 mS/cm; degradation under 3% after 2,500 fast-charge cycles."
         }
       ]
     },
@@ -179,17 +183,17 @@ export const presentationData = {
       subtitle: "Compute verification, safety thresholds, and the trajectory toward general cognitive parity",
       narrative: "Global accords formalized hardware-level compute telemetry for training runs exceeding 10²⁶ FLOPs, as the scientific frontier advances toward unified multimodal embodiment and self-improving scientific agents.",
       timeline: [
-        { year: "2024", title: "Multimodal Foundation & 1M Context", desc: "Omni-modal text/vision/voice unification, initial test-time search prototypes." },
-        { year: "2025", title: "Reasoning Models & Open Distillation", desc: "o1/DeepSeek-R1 release, open-weights parity, $100B hyperscale datacenter plans." },
-        { year: "2026 (PRESENT)", title: "Agentic Fleets & Gigawatt Nuclear Campuses", desc: "85% assisted coding, self-verifying PRMs, 10²⁶ FLOPs international safety treaty.", active: true },
-        { year: "2027–2028", title: "Embodied Robotics & Automated Chemistry", desc: "Humanoid factory deployment, closed-loop autonomous scientific wet labs." },
-        { year: "2029–2030", title: "General Scientific Cognitive Parity", desc: "Independent mathematical theorem proving and theoretical physics discoveries." }
+        { year: "2024", title: "Multimodal Foundation & 1M Context", desc: "Omni-modal text/vision/voice unification, initial test-time search prototypes and FlashAttention-3." },
+        { year: "2025", title: "Reasoning Models & Open Distillation", desc: "o1/DeepSeek-R1 release, open-weights parity, $100B hyperscale datacenter campus commitments." },
+        { year: "2026 (PRESENT)", title: "Agentic Fleets & Gigawatt Nuclear Campuses", desc: "85% assisted coding, self-verifying PRMs, 10²⁶ FLOPs international safety treaty, FP4 silicon standard.", active: true },
+        { year: "2027–2028", title: "Embodied Robotics & Automated Chemistry", desc: "Humanoid factory deployment, closed-loop autonomous wet labs, 10M token zero-loss context standards." },
+        { year: "2029–2030", title: "General Scientific Cognitive Parity", desc: "Autonomous mathematical theorem proving, theoretical physics breakthroughs, and unified agentic OS." }
       ],
       governancePillars: [
-        { title: "📡 Compute Telemetry", detail: "Hardware-level audit verification on all multi-cluster runs exceeding 10²⁶ FLOPs." },
-        { title: "🧬 Biosecurity Sandboxing", detail: "Cryptographic DNA synthesis screening and dual-use biological hazard prevention." },
-        { title: "🔒 Media Provenance (C2PA)", detail: "Universal cryptographic watermarking standard on 98% of frontier synthetic media." },
-        { title: "⚡ Zero-Fossil Mandate", detail: "Binding hyperscale agreements requiring 100% dedicated clean power additions by 2028." }
+        { title: "📡 Compute Telemetry", detail: "Hardware-level cryptographically signed audit telemetry on all multi-cluster runs exceeding 10²⁶ FLOPs.", tag: "ISO/IEC 42001-AI" },
+        { title: "🧬 Biosecurity Sandboxing", detail: "Cryptographic DNA synthesis screening, air-gapped wet lab APIs, and automated dual-use pathogen blocking.", tag: "G7 BioSafety Accord" },
+        { title: "🔒 Media Provenance (C2PA)", detail: "Universal cryptographic watermarking and manifest validation embedded directly into hardware silicon enc-dec pipelines.", tag: "C2PA v2.2 Mandate" },
+        { title: "⚡ Zero-Fossil Mandate", detail: "Binding hyperscale agreements requiring 100% dedicated clean baseload power additions for any cluster >100MW.", tag: "Clean Compute 2028" }
       ]
     }
   ],

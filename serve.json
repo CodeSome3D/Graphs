@@ -1,0 +1,23 @@
+{
+  "cleanUrls": false,
+  "trailingSlash": true,
+  "directoryListing": false,
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/01_ai_worldwide", "destination": "/01_ai_worldwide/index.html" },
+    { "source": "/01_ai_worldwide/", "destination": "/01_ai_worldwide/index.html" },
+    { "source": "/00_3d_printers_test", "destination": "/00_3d_printers_test/index.html" },
+    { "source": "/00_3d_printers_test/", "destination": "/00_3d_printers_test/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "**",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    }
+  ]
+}
